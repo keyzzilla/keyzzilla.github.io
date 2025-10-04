@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Keyzz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles and animations */
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* NIGHT SKY ANIMATION: Dark gradient with slow shift */
+            background: linear-gradient(135deg, #0A0A1F, #000000, #1A1240); 
+            background-size: 300% 300%; 
+            animation: gradientMove 30s ease infinite alternate; /* Animates the background position */
+            color: #ffffff;
+            overflow-x: hidden;
+            transition: background-color 0.8s ease;
+        }
+        
+        /* UPDATED: Removed text-transform: uppercase; to allow lowercase text */
+        .coolvetica-style {
+            font-family: 'Poppins', sans-serif; 
+            letter-spacing: 2px;
+            font-weight: 800; /* Extra bold */
+            /* text-transform: uppercase; was removed */
+        }
+
+        /* Define keyframe animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                /* Reduced translation distance for a subtler, more fluent animation */
+                transform: translateY(15px); 
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Subtle floating animation for constant, ambient movement */
+        @keyframes subtleFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                /* White glow maintained */
+                box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.2), 0 0 5px 2px rgba(255, 255, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 30px 10px rgba(255, 255, 255, 0.4), 0 0 10px 4px rgba(255, 255, 255, 0.6);
+            }
+        }
+        
+        @keyframes backgroundShine {
+            from { background-position: 200% center; }
+            to { background-position: -200% center; }
+        }
+
+        /* Animation utility classes */
+        .animate-fade-in {
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        
+        /* Staggered animation delays (Adjusted for new social links) */
+        .animate-fade-in-up {
+            opacity: 0; /* Start hidden */
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Using a smoother ease-out curve */
+        }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; } /* New delay for the name 'Ilyas' */
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-800 { animation-delay: 0.8s; } /* New Social Links */
+        .delay-1000 { animation-delay: 1.0s; } /* New Section Title */
+        .delay-1200 { animation-delay: 1.2s; } /* Card 1 */
+        .delay-1400 { animation-delay: 1.4s; } /* Card 2 */
+        .delay-1600 { animation-delay: 1.6s; } /* Card 3 */
+        .delay-1800 { animation-delay: 1.8s; } /* Card 4 */
+        .delay-2000 { animation-delay: 2.0s; } /* Footer */
+
+
+        /* FIX: Set opacity to 1 here to ensure the profile picture is visible immediately, 
+           overriding any potential animation failure that leaves it at opacity: 0. 
+           The animation for 'fadeInUp' still handles the translateY movement. */
+        .profile-pic {
+            opacity: 1; /* Ensures visibility */
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        .shiny-text {
+            background: linear-gradient(90deg, #aaa, #fff, #aaa);
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: backgroundShine 5s linear infinite;
+        }
+        
+        /* Applied subtleFloat animation to the main content wrapper */
+        .main-content-wrapper {
+             animation: subtleFloat 10s ease-in-out infinite;
+        }
+
+        .card {
+            /* Modified to use flex-col and justify-between for content separation */
+            /* Current Opacity: 0.2 for maximum transparency and blur effect */
+            background-color: rgba(0, 0, 0, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* Enhanced transition properties for a much smoother hover */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.4s ease, box-shadow 0.4s ease; 
+            /* Added position: relative for absolute positioning of the text box */
+            position: relative;
+            overflow: hidden; /* Ensures text box doesn't bleed out */
+            padding: 1.5rem; /* Base padding */
+        }
+
+        .card:hover {
+            /* Smoother hover transformation */
+            transform: translateY(-10px) scale(1.05) rotateZ(0.5deg); 
+            border-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Style for the text box inside the card */
+        .card-textbox {
+            /* Positioning at the bottom of the card */
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /* Semi-transparent background with blur for a glass effect */
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 0.75rem; /* p-3 */
+            /* Default transform: translateY(100%) hides the textbox */
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Show the text box on card hover */
+        .card:hover .card-textbox {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Floating particles background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        /* Footer background for visual separation */
+        .footer-bg {
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="particles-js"></div>
+
+    <div class="relative min-h-screen w-full flex flex-col items-center justify-center p-4 z-20 main-content-wrapper"> 
+
+        <header class="text-center flex flex-col items-center">
+            <img 
+                src="https://i.ibb.co/xttgtnBx/IMG-20250926-160037.jpg" 
+                alt="Keyzz Profile Picture" 
+                class="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover z-30 profile-pic animate-fade-in-up delay-200"
+                onerror="this.onerror=null; this.src='https://placehold.co/160x160/4c1d95/ffffff?text=KEYZZ';"
+            >
+            <!-- UPDATED: Added mb-0 to h2 to remove bottom margin -->
+            <h2 class="text-4xl mt-1 mb-0 text-gray-100 coolvetica-style animate-fade-in-up delay-300">
+                ilyas
+            </h2>
+           
+            </h1>
+            <!-- UPDATED: Changed mt-2 to mt-0 to remove top margin from paragraph -->
+            <p class="text-gray-400 mt-0 text-lg max-w-md animate-fade-in-up delay-600">
+                13 and being what I strive to be.
+            </p>
+
+            <!-- UPDATED: Changed space-x-6 to space-x-4 to move logos closer -->
+            <div class="flex space-x-4 mt-4 animate-fade-in-up delay-800">
+                
+                <!-- UPDATED: Changed h-8 w-8 to h-10 w-10 for larger logo -->
+                <a href="https://www.twitch.tv/keyzzilla" class="transition-colors duration-300 transform hover:scale-125" aria-label="Twitch Link">
+                    <img src="https://i.ibb.co/pvW96DYx/Twitch.png" alt="Twitch Icon" class="h-10 w-10 filter brightness-125">
+                </a>
+                
+                <!-- UPDATED: Changed h-8 w-8 to h-10 w-10 for larger logo -->
+                <a href="https://x.com/ClashRoyaleThug" class="transition-colors duration-300 transform hover:scale-125" aria-label="X (Twitter) Link">
+                    <img src="https://i.ibb.co/vvqQLp21/X.png" alt="X (Twitter) Icon" class="h-10 w-10 filter brightness-125">
+                </a>
+                
+                <!-- UPDATED: Changed h-8 w-8 to h-10 w-10 for larger logo -->
+                <a href="https://www.youtube.com/@keyzz32" class="transition-colors duration-300 transform hover:scale-125" aria-label="YouTube Link">
+                    <img src="https://i.ibb.co/KzSr55sD/youtube.png" alt="YouTube Icon" class="h-10 w-10 filter brightness-125">
+                </a>
+            </div>
+            </header>
+
+        <!-- The main content area starts here. mt-8 controls the space below the social icons. -->
+        <main class="w-full max-w-4xl mt-8">
+            <h2 class="text-2xl font-semibold text-center text-gray-300 animate-fade-in-up delay-1000">MY HOBBIES</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-6">
+                <!-- Hobby Card 1: Soccer -->
+                <div class="card p-6 rounded-xl flex flex-col items-center justify-between aspect-square animate-fade-in-up delay-1200">
+                    <div>
+                        <svg class="h-12 w-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M4.27 15.54L12 12l7.73 3.54M12 2v2M20 12h2M4 12H2M12 22v-2"></path>
+                            <path d="M15.54 4.27L12 12l-3.54-7.73"></path>
+                            <path d="M15.54 19.73L12 12l-3.54 7.73"></path>
+                        </svg>
+                        <span class="mt-4 font-semibold block text-center">Soccer</span>
+                    </div>
+                    <div class="card-textbox">
+                        <p class="text-xs text-gray-200">Active player and I love the game and also recently started playing, as my little brother got me really interested.</p>
+                    </div>
+                </div>
+
+                <!-- Hobby Card 2: Basketball -->
+                <div class="card p-6 rounded-xl flex flex-col items-center justify-between aspect-square animate-fade-in-up delay-1400">
+                    <div>
+                        <svg class="h-12 w-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M2.5 12h19"></path>
+                            <path d="M12 2.5v19"></path>
+                            <path d="M18.36 5.64l-12.72 12.72"></path>
+                            <path d="M5.64 5.64l12.72 12.72"></path>
+                        </svg>
+                        <span class="mt-4 font-semibold block text-center">Basketball</span>
+                    </div>
+                    <div class="card-textbox">
+                        <p class="text-xs text-gray-200">Huge fan. I've been playing since the age of 7 and I'll always be a fan of basketball.</p>
+                    </div>
+                </div>
+
+                <!-- Hobby Card 3: Fortnite -->
+                <div class="card p-6 rounded-xl flex flex-col items-center justify-between aspect-square animate-fade-in-up delay-1600">
+                    <div>
+                        <svg class="h-12 w-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
+                            <path d="M15 11h-2V9h-2v2H9v2h2v2h2v-2h2v-2z"></path>
+                        </svg>
+                        <span class="mt-4 font-semibold block text-center">Fortnite</span>
+                    </div>
+                    <div class="card-textbox">
+                        <p class="text-xs text-gray-200">Main grind. I focus on getting better and destroying the people that "run" Fortnite.</p>
+                    </div>
+                </div>
+
+                <!-- Hobby Card 4: Streaming -->
+                <div class="card p-6 rounded-xl flex flex-col items-center justify-between aspect-square animate-fade-in-up delay-1800">
+                    <div>
+                        <svg class="h-12 w-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="22"></line>
+                        </svg>
+                        <span class="mt-4 font-semibold block text-center">Streaming</span>
+                    </div>
+                    <div class="card-textbox">
+                        <p class="text-xs text-gray-200">Talking to my small but chill community is the best part of streaming. I really appreciate my community for everything.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+        
+        <div class="footer-bg mt-12 animate-fade-in-up delay-2000">
+            <footer class="text-center">
+                <p class="text-gray-400 text-sm">@keyzzilla.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const particlesContainer = document.getElementById('particles-js');
+            const numParticles = 50;
+
+            for (let i = 0; i < numParticles; i++) {
+                let particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 3 + 1; // Particle size between 1px and 4px
+                const x = Math.random() * 100; // Position in vw
+                const y = Math.random() * 100; // Position in vh
+                
+                // Set a fixed particle animation duration of 4.2s.
+                const duration = 4.2; 
+                
+                const delay = Math.random() * 10; // Animation delay up to 10s
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.position = 'absolute';
+                // Increased opacity for brighter "stars"
+                particle.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; 
+                particle.style.borderRadius = '50%';
+                particle.style.left = `${x}vw`;
+                particle.style.top = `${y}vh`;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`; /* Added 'alternate' for smoother loop */
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
+
+        // Add keyframes for the particle animation dynamically
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `
+            @keyframes float {
+                0% {
+                    transform: translateY(0px) translateX(0px);
+                    opacity: 0.7;
+                }
+                50% {
+                    transform: translateY(-20px) translateX(10px);
+                    opacity: 0.3;
+                }
+                100% {
+                    transform: translateY(0px) translateX(0px);
+                    opacity: 0.7;
+                }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    </script>
+
+</body>
+</html>
