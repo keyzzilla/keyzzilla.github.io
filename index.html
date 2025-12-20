@@ -4,278 +4,425 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@keyzzilla</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://www.nerdfonts.com/assets/css/webfont.css" rel="stylesheet">
     <style>
+        :root {
+            --black: #000000;
+            --purple: #000000;
+            --light-purple: #ffffff;
+            --text-color: #ffffff;
+            --accent: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            color: var(--text-color);
+        }
         
         body {
-            font-family: 'Poppins', sans-serif;
-            
-            background: linear-gradient(135deg, #0A0A1F, #000000, #1A1240); 
-            background-size: 300% 300%; 
-            animation: gradientMove 30s ease infinite alternate; 
-            color: #ffffff;
+            background-color: var(--black);
             overflow-x: hidden;
-            transition: background-color 0.8s ease;
+            min-height: 100vh;
+            position: relative;
         }
         
-        
-        .coolvetica-style {
-            font-family: 'Poppins', sans-serif; 
-            letter-spacing: 2px;
-            font-weight: 800; 
-        
-        }
-
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                
-                transform: translateY(15px); 
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        
-        @keyframes subtleFloat {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-3px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                
-                box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.2), 0 0 5px 2px rgba(255, 255, 255, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 30px 10px rgba(255, 255, 255, 0.4), 0 0 10px 4px rgba(255, 255, 255, 0.6);
-            }
-        }
-        
-        @keyframes backgroundShine {
-            from { background-position: 200% center; }
-            to { background-position: -200% center; }
-        }
-
-        
-        .animate-fade-in {
-            animation: fadeIn 1.5s ease-in-out forwards;
-        }
-        
-        
-        .animate-fade-in-up {
-            opacity: 0;
-            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; 
-        }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; } 
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-600 { animation-delay: 0.6s; }
-        .delay-800 { animation-delay: 0.8s; } 
-        .delay-1000 { animation-delay: 1.0s; } 
-        .delay-1200 { animation-delay: 1.2s; } 
-        .delay-1400 { animation-delay: 1.4s; } 
-        .delay-1600 { animation-delay: 1.6s; } 
-        .delay-1800 { animation-delay: 1.8s; } 
-        .delay-2000 { animation-delay: 2.0s; } 
-
-
-     
-        .profile-pic {
-            opacity: 1; 
-            animation: pulseGlow 4s infinite ease-in-out;
-        }
-
-        .shiny-text {
-            background: linear-gradient(90deg, #aaa, #fff, #aaa);
-            background-size: 200% auto;
-            color: #fff;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: backgroundShine 5s linear infinite;
-        }
-        
-       
-        .main-content-wrapper {
-             animation: subtleFloat 10s ease-in-out infinite;
-        }
-
-        .cards {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-
-.card {
-  background-color: rgba(0, 0, 0, 0.02); 
-  color: #fff;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.015);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.card-big {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-
-        }
-
-        
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .crt-overlay {
+            position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        
+        .crt-overlay::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 60%, rgba(46, 16, 101, 0.6) 100%);
+            z-index: 11;
+        }
+        
+        .crt-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 12;
+        }
+        
+        .flicker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 13;
+            animation: flicker 6s infinite;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 0; }
+            5% { opacity: 0.5; }
+            10% { opacity: 0; }
+            75% { opacity: 0; }
+            80% { opacity: 0.5; }
+            85% { opacity: 0; }
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 15px var(--accent);
+            animation: glow 2s infinite alternate;
+            object-fit: cover;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px var(--accent);
+            animation: glow 2s infinite alternate;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--accent);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 0.6s forwards;
+        }
+        
+        @keyframes fadeUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .project-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .project-link:hover {
+            text-shadow: 0 0 8px var(--accent);
+        }
+        
+        .project-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .project-link:hover::after {
+            width: 100%;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--purple);
+            color: var(--text-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-purple);
+        }
+        
+        .social-btn:hover {
+            background-color: var(--light-purple);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 0;
         }
         
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
+            }
+            to {
+                text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            }
+        }
         
-        .footer-bg {
-            background-color: rgba(0, 0, 0, 0.15);
-            width: 100%;
-            padding: 1rem 0;
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .projects {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="antialiased">
-    <div id="particles-js"></div>
+<body>
 
-    <div class="relative min-h-screen w-full flex flex-col items-center justify-center p-4 z-20 main-content-wrapper"> 
-
-        <header class="text-center flex flex-col items-center">
-            <img 
-                src="https://i.ibb.co/xttgtnBx/IMG-20250926-160037.jpg" 
-                alt="Keyzz Profile Picture" 
-                class="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover z-30 profile-pic animate-fade-in-up delay-200"
-                onerror="this.onerror=null; this.src='https://placehold.co/160x160/00000/ffffff?text=keyzz';"
-            >
-            
-            <h2 class="text-4xl mt-1 mb-0 text-gray-100 coolvetica-style animate-fade-in-up delay-300">
-                ilyas
-            </h2>
-           
-            </h1>
-            
-            <p class="text-gray-400 mt-0 text-lg max-w-md animate-fade-in-up delay-600">
-                @keyzzilla
-            </p>
-
-           
-            <div class="flex space-x-4 mt-4 animate-fade-in-up delay-800">
-                
-                
-                <a href="https://www.twitch.tv/keyzzilla" class="transition-colors duration-300 transform hover:scale-125" aria-label="Twitch Link">
-                    <img src="https://i.ibb.co/pvW96DYx/Twitch.png" alt="Twitch Icon" class="h-10 w-10 filter brightness-125">
+    <div class="crt-overlay"></div>
+    <div class="crt-lines"></div>
+    <div class="flicker"></div>
+    
+  
+    <canvas class="particles" id="particles"></canvas>
+    
+    <div class="container">
+        <header>
+            <img src="https://i.ibb.co/PZxRb5WS/2d9337983d902e715f0abe791febc66d.jpg" alt="pfp" class="profile-pic">
+            <h1>keyzz.exe</h1>
+            <p>13 | Fortnite Token Professional | @LuminaGGs player</p>
+        </header>
+        
+        <section class="section">
+            <h2>about.txt</h2>
+            <p>I am a 13 year old kid from Austin, Texas that plays Fortnite as a pro token player. I'm known for streaming live events and tokens against other players.</p>
+            <div class="social-links">
+                <a href="https://github.com/keyzzilla" class="social-btn" target="_blank" title="GitHub">
+                    <i class="nf nf-fa-youtube"></i>
                 </a>
-                
-                
-                <a href="https://x.com/keyzzilla" class="transition-colors duration-300 transform hover:scale-125" aria-label="x">
-                    <img src="https://i.ibb.co/vvqQLp21/X.png" alt="x" class="h-10 w-10 filter brightness-125">
+                <a href="https://twitch.tv/keyzzilla" class="social-btn" target="_blank" title="Twitch">
+                    <i class="nf nf-fa-twitch"></i>
                 </a>
-                
-                
-                <a href="https://www.youtube.com/@keyzzilla" class="transition-colors duration-300 transform hover:scale-125" aria-label="yt">
-                    <img src="https://i.ibb.co/KzSr55sD/youtube.png" alt="yt" class="h-10 w-10 filter brightness-125">
+                <a href="https://twitter.com/keyzzilla" class="social-btn" target="_blank" title="Twitter">
+                    <i class="nf nf-fa-twitter"></i>
                 </a>
             </div>
-            </header>
-
+        </section>
         
-        <div class="cards">
-  <div class="card card-big">
-    
-    
-    <p>Ilyas (online known as Keyzz). A 13 year old kid born in Austin, Texas, is currently making his way up to the top of the eSports community as he started with nothing but a Nintendo Switch and a dream. After 2 years on Switch, his neighbor had given him a laptop from 2014. As he had received this in early 2022, the laptop was close to 9 years old. The game he originally played on this laptop was Minecraft: Java Edition. Then, once he found out he can use Nvidia GeForce NOW on his laptop, he started playing Fortnite Battle Royale. He had also bought a $0.99 keyboard from his local thrift store, with a office mouse his father has offered him. After a year of use of his laptop, his uncle had bought him enough PC parts for him to build one himself. After full building it on July 1st, 2023, He started playing non-stop and then after 4 months of playing, his YouTube channel was born on Oct 14th, 2023. Now after 2 years of being a content creator, Ilyas has been able to join Team Sarrow, 2AM Esports, and Beneath Reality, As well as befriending multiple known Fortnite players in the community. Ilyas also owns a website (keyzzilla.com) Which is currently under development for a new redo on the page.</p>
-  </div>
-</div>
-
+        <section class="section">
+            <h2>Work.rar</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <h3><a href="https://keyzzilla.com" class="project-link" target="_blank">keyzzilla.com</a></h3>
+                    <p>My online autobiography portfolio. As of right now the website is down but is on it's way to being published.
+                    </p>
+                </div>
+                
+                <div class="project-card">
+                    <h3><a href="https://youtube.com/@keyzzilla" class="project-link" target="_blank">My YouTube.</a></h3>
+                    <p>A channel I started when I was 11. Now has exceeded 1,500 subscribers as of December 2025.</p>
+                </div>
             
-        </main>
+            </div>
+        </section>
         
-        <div class="footer-bg mt-12 animate-fade-in-up delay-2000">
-            <footer class="text-center">
-                <p class="text-gray-400 text-sm">@keyzzilla.</p>
-            </footer>
-        </div>
+        <section class="section">
+            <h2>my start.rtf</h2>
+            <p>I first started with Minecraft in 2016 on my father's phone. I actively play as of right now with almost 10 years of experience.</p>
+            <p>Past Minecraft, I played Fortnite starting in 2017 and have been playing but not as actively as I used to. </p>
+        </section>
     </div>
-
+    
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const particlesContainer = document.getElementById('particles-js');
-            const numParticles = 50;
-
-            for (let i = 0; i < numParticles; i++) {
-                let particle = document.createElement('div');
-                particle.classList.add('particle');
-                
-                const size = Math.random() * 3 + 1; 
-                const x = Math.random() * 100; 
-                const y = Math.random() * 100; 
-                
-                
-                const duration = 4.2; 
-                
-                const delay = Math.random() * 10; 
-
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.position = 'absolute';
-                
-                particle.style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; 
-                particle.style.borderRadius = '50%';
-                particle.style.left = `${x}vw`;
-                particle.style.top = `${y}vh`;
-                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        });
-
         
-        const styleSheet = document.createElement("style");
-        styleSheet.type = "text/css";
-        styleSheet.innerText = `
-            @keyframes float {
-                0% {
-                    transform: translateY(0px) translateX(0px);
-                    opacity: 0.7;
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let particlesArray = [];
+        
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = `rgba(${255},${255},${252},${Math.random() * 0.5 + 0.1})`;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.size > 0.2) this.size -= 0.01;
+                
+ 
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function init() {
+            particlesArray = [];
+            for (let i = 0; i < 100; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        
+        function handleParticles() {
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${192},${132},${252},${0.1 - (distance/1000)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
                 }
-                50% {
-                    transform: translateY(-20px) translateX(10px);
-                    opacity: 0.3;
-                }
-                100% {
-                    transform: translateY(0px) translateX(0px);
-                    opacity: 0.7;
+                
+
+                if (particlesArray[i].size <= 0.3) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
                 }
             }
-        `;
-        document.head.appendChild(styleSheet);
-    </script>
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+        
+        init();
+        animate();
+        
 
+        function randomGlitch() {
+            if (Math.random() > 0.95) {
+                document.body.style.marginLeft = `${Math.random() * 10 - 5}px`;
+                setTimeout(() => {
+                    document.body.style.marginLeft = '0px';
+                }, 100);
+            }
+            
+            setTimeout(randomGlitch, Math.random() * 5000 + 1000);
+        }
+        
+        randomGlitch();
+    </script>
 </body>
 </html>
