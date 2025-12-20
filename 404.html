@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404</title>
+    <style>
+        :root {
+            --black: #000000;
+            --purple-glow: #c084fc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: var(--black);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        .error-container {
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 5rem;
+            color: var(--purple-glow);
+            margin-bottom: 0.5rem;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
+        }
+
+        p {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .placeholder-link {
+            color: white;
+            text-decoration: none;
+            border: 1px solid var(--purple-glow);
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .placeholder-link:hover {
+            background: var(--purple-glow);
+            color: black;
+            box-shadow: 0 0 20px var(--purple-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas class="particles" id="particles"></canvas>
+    
+    <div class="error-container">
+        <h1>404</h1>
+        <p>LOST IN THE VOID</p>
+        <a href="https://keyzzilla.com" class="placeholder-link">[ return to keyzzilla.com ]</a>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particlesArray = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function init() { for (let i = 0; i < 100; i++) particlesArray.push(new Particle()); }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        init(); animate();
+        window.addEventListener('resize', () => { 
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
+        });
+    </script>
+</body>
+</html>
