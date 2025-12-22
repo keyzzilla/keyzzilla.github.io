@@ -139,7 +139,31 @@
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
-        
+        .header-boxes {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .header-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-box:hover {
+            background: var(--accent);
+            color: var(--black);
+            box-shadow: 0 0 10px var(--accent);
+        }
         .section {
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 8px;
@@ -239,7 +263,7 @@
         }
 
         footer:hover {
-            opacity: 0.4;
+            opacity: 0.6;
         }
         
         .particles {
@@ -250,7 +274,123 @@
             height: 100%;
             z-index: 0;
         }
-        
+.horizontal-section-wrapper {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: stretch;
+    margin-bottom: 2rem;
+}
+
+.mini-horizontal-box {
+    flex: 1;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem !important;
+}
+
+.mini-img {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--accent);
+    margin-bottom: 1rem;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mini-content h3 {
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.mini-content p {
+    font-size: 0.85rem !important;
+    line-height: 1.4;
+    opacity: 0.8;
+}
+.featured-square-box {
+            padding: 1.5rem !important;
+        }
+
+        .featured-flex-square {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .square-image-wrapper {
+            flex: 0 0 200px;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+        }
+
+        .featured-img-square {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .featured-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+       .featured-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .featured-flex-square {
+                flex-direction: column;
+                text-align: center;
+            }
+            .square-image-wrapper {
+                flex: 0 0 150px;
+                margin: 0 auto;
+            }
+            .featured-links {
+                justify-content: center;
+            }
+        }
+
+@media (max-width: 768px) {
+    .horizontal-section-wrapper {
+        flex-direction: column;
+    }
+    .mini-horizontal-box {
+        margin-bottom: 2rem !important;
+    }
+}.header-divider {
+            text-align: center;
+            padding: 1rem !important;
+            margin-bottom: 1rem !important;
+            border-style: double;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            margin-top: -1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .header-divider { 
+            animation-delay: 0.7s; 
+        }
         @keyframes glow {
             from {
                 text-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
@@ -289,10 +429,15 @@
             <img src="https://i.ibb.co/Hp13XsQT/image-10.png" alt="pfp" class="profile-pic">
             <h1>keyzz.exe</h1>
             <p>13 | Fortnite Token Professional | @LuminaGGs player</p>
+            <div class="header-boxes">
+                <a href="https://corv.keyzzilla.com/" class="header-box">CorvX's Page</a>
+                <a href="https://web.keyzzilla.com/" class="header-box">Web</a>
+                <a href="https://shop.keyzzilla.com/" class="header-box">My Shop</a>
+            </div>
         </header>
         
         <section class="section">
-            <h2>about.txt</h2>
+            <h2>About Me!</h2>
             <p>I am a 13 year old kid from Austin, Texas that plays Fortnite as a pro token player. I'm known for streaming live events and tokens against other players.</p>
             <div class="social-links">
                 <a href="https://youtube.com/@keyzzilla" class="social-btn" target="_blank" title="GitHub">
@@ -308,7 +453,7 @@
         </section>
         
         <section class="section">
-            <h2>Work.rar</h2>
+            <h2>My Projects!</h2>
             <div class="projects">
                 <div class="project-card">
                     <h3><a href="https://keyzzilla.com" class="project-link" target="_blank">keyzzilla.com</a></h3>
@@ -325,20 +470,81 @@
         </section>
         
         <section class="section">
-            <h2>my start.rtf</h2>
+            <h2>How I started!</h2>
             <p>I first started with Minecraft in 2016 on my father's phone. I actively play as of right now with almost 10 years of experience.</p>
             <p>Past Minecraft, I played Fortnite starting in 2017 and have been playing but not as actively as I used to. </p>
-            
-            <p>
-                [ <a href="https://shop.keyzzilla.com" class="project-link">Shop</a> ] &nbsp;
-                [ <a href="https://corv.keyzzilla.com" class="project-link">CorvX</a> ] &nbsp;
-                [ <a href="https://web.keyzzilla.com" class="project-link">Web</a> ]
-            </p>
         </section>
-        
+        <section class="section featured-square-box">
+            <div class="featured-flex-square">
+                <div class="square-image-wrapper">
+                    <img src="https://i.ibb.co/B581VHdR/image-17.png" alt="lum" class="featured-img-square">
+                </div>
+                <div class="featured-content">
+                    <h2>Meet Team Lumina™!</h2>
+                    <p>Esports & Entertainment Organization. Light the path Illuminate your potential!</p>
+                    <div class="featured-links">
+            <a href="https://www.youtube.com/@Luminaggs" class="header-box">YouTube</a>
+            <a href="https://x.com/Luminaggs" class="header-box">Twitter</a>
+            <a href="https://discord.gg/luminaggs" class="header-box">Discord</a>
+            <a href="https://www.tiktok.com/@luminaggs" class="header-box">TikTok</a>
+            <a href="https://www.twitch.tv/Luminaggs" class="header-box">Twitch</a>
+        </div>
+                </div>
+            </div>
+        </section>
+        <section class="section header-divider">
+            <h2>Past Org Experience</h2>
+            <p class="subtitle">Here are the organizations I have joined in the past..</p>
+        </section>
+        <div class="horizontal-section-wrapper">
+    <section class="section mini-horizontal-box">
+        <img src="https://i.ibb.co/DDx7CvKH/channels4-profile.jpg" alt="2am" class="mini-img">
+        <div class="mini-content">
+            <h3>2AM Esports</h3>
+            <a href="https://2am.am" </a>2AM's Page<a>
+            <p>6 Months.</p>
+        </div>
+    </section>
+
+    <section class="section mini-horizontal-box">
+        <img src="https://i.ibb.co/KzQzw8gq/6800bd5c7a18b4-28168148.jpg" alt="srw" class="mini-img">
+        <div class="mini-content">
+            <h3>Team Sarrow</h3>
+            <a href="https://sarrowgg.com" </a>Sarrow's Page</a>
+            <p>1 Month.</p>
+        </div>
+    </section>
+
+    <section class="section mini-horizontal-box">
+        <img src="https://i.ibb.co/PscW2Qzz/rec740n9rgmwnbufc.webp" alt="bnth" class="mini-img">
+        <div class="mini-content">
+            <h3>Beneath Reality</h3>
+            <a href="https://beneathgg.com" </a>Beneath's Site</a>
+            <p>6 months.</p>
+        </div>
+    </section>
+    
+    <section class="section mini-horizontal-box">
+        <img src="https://i.ibb.co/ntSP8vd/b4a59efd409d6e6d4da05d6f3b4104f8.png" alt="wor" class="mini-img">
+        <div class="mini-content">
+            <h3>Entry_03</h3>
+            <a href="https://konect.gg/worshipgg" </a>Worship's Bio</a>
+            <p>3 months. // I played before their rebrand from Silence Region.</p>
+        </div>
+    </section>
+    
+    <section class="section mini-horizontal-box">
+        <img src="https://i.ibb.co/CKJwcnwj/fee5404aef27c3427a90b60595c1b5d3.png" alt="kid" class="mini-img">
+        <div class="mini-content">
+            <h3>Kid Esports</h3>
+            <a href="https://discord.com/invite/KidEsports" </a>Kid's Discord</a>
+            <p>2 months. My first org going to 2025.</p>
+        </div>
+    </section>
+</div>
 
         <footer>
-            <p>version: [v2.1.0] // code by @wyindxd // all credit to him. </p>
+            <p>version: [ v2.52.0 ] // code by @wyindxd // all credit to him. </p>
         </footer>
     </div>
     
