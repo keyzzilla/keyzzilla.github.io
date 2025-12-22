@@ -78,6 +78,7 @@
     <div class="error-container">
         <h1>404</h1>
         <p>LOST IN THE VOID</p>
+        <p style="font-size: 0.8rem; opacity: 0.5;">REDIRECTING IN <span id="countdown">5</span>...</p>
         <a href="https://keyzzilla.com" class="placeholder-link">[ return to keyzzilla.com ]</a>
     </div>
 
@@ -118,6 +119,20 @@
             canvas.width = window.innerWidth; 
             canvas.height = window.innerHeight; 
         });
+
+        let timeLeft = 5;
+        const countdownElement = document.getElementById('countdown');
+        const targetURL = "https://keyzzilla.com";
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownElement.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = targetURL;
+            }
+        }, 1000);
     </script>
 </body>
 </html>
