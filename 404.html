@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/// ERROR: 404_PAGE_NOT_FOUND ///</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --fg: #ffffff;
+            --dim: #444444;
+            --error: #ff0000;
+            --glow: 0 0 10px rgba(255, 255, 255, 0.4);
+            --border: 1px solid var(--fg);
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.98; }
+            5% { opacity: 0.95; }
+            10% { opacity: 0.99; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            animation: flicker 0.15s infinite;
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            z-index: 99;
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100px;
+            background: linear-gradient(0deg, transparent, rgba(255,255,255,0.05), transparent);
+            z-index: 100;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+
+        .error-container {
+            width: 90%;
+            max-width: 500px;
+            border: var(--border);
+            padding: 40px;
+            background: rgba(5, 5, 5, 0.9);
+            box-shadow: var(--glow);
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+            letter-spacing: -2px;
+        }
+
+        .status-bar {
+            background: var(--fg);
+            color: var(--bg);
+            padding: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .timer-box {
+            font-size: 0.7rem;
+            color: var(--dim);
+            border: 1px dashed var(--dim);
+            padding: 15px;
+        }
+
+        #seconds {
+            color: var(--fg);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            background: none;
+            border: 1px solid var(--fg);
+            color: var(--fg);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+
+<div class="crt-overlay"></div>
+<div class="scanline"></div>
+
+<div class="error-container">
+    <div class="status-bar">CRITICAL_SYSTEM_ERROR</div>
+    <h1>404</h1>
+    <p>
+        THE REQUESTED NODE DOES NOT EXIST OR HAS BEEN DELETED FROM THE ARCHIVE.
+    </p>
+    
+    <div class="timer-box">
+        RE-ROUTING TO ROOT_DIRECTORY IN:<br>
+        <span id="seconds">5</span> SECONDS
+    </div>
+
+    <a href="https://keyzzilla.com" class="btn">MANUAL_OVERRIDE</a>
+</div>
+
+<script>
+    let timeLeft = 5;
+    const timerDisplay = document.getElementById('seconds');
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        timerDisplay.innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            window.location.href = "https://keyzzilla.com";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
