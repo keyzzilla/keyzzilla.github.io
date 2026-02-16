@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>keyzz v4</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('./assets/coolvetica rg.otf') format('woff'),
+                 url('https://fonts.cdnfonts.com/s/14899/Coolveticarg.woff') format('woff');
+        }
+
+        :root {
+            --bg: #030305;
+            --panel: rgba(15, 15, 20, 0.9);
+            --accent: #00f2ff;
+            --secondary: #7b2ff7;
+            --izzy-pink: #ff2d55;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            cursor: crosshair; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Coolvetica', sans-serif !important;
+            text-transform: lowercase !important; 
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(123, 47, 247, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(0, 242, 255, 0.08) 0%, transparent 40%);
+            color: #fff;
+            margin: 0; height: 100vh; display: flex; overflow: hidden;
+        }
+
+        /* --- NAVIGATION --- */
+        .sidebar {
+            width: 80px; background: var(--panel); backdrop-filter: blur(30px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; flex-direction: column; padding: 40px 10px; z-index: 100;
+            overflow: hidden;
+        }
+        .sidebar:hover { width: 260px; padding: 40px 20px; }
+
+        .nav-btn {
+            background: transparent; border: 1px solid transparent; color: #555;
+            text-align: left; padding: 15px; font-size: 0.9rem;
+            cursor: pointer; border-radius: 12px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 20px; white-space: nowrap;
+            width: 100%;
+        }
+
+        /* updated font rules to support both free icons and brand icons */
+        .nav-btn i, .fa-solid, .fa-circle-nodes, .fa-brands { 
+            min-width: 25px; 
+            text-align: center;
+            font-weight: 900 !important;
+            font-style: normal;
+        }
+        
+        .fa-solid, .fa-circle-nodes { font-family: "Font Awesome 6 Free" !important; }
+        .fa-brands, .fa-paypal { font-family: "Font Awesome 6 Brands" !important; }
+
+        .nav-btn span { opacity: 0; pointer-events: none; }
+        .sidebar:hover .nav-btn span { opacity: 1; pointer-events: auto; }
+        
+        .nav-btn:hover, .nav-btn.active { 
+            color: #fff; background: rgba(0, 242, 255, 0.1); border-color: rgba(0, 242, 255, 0.3);
+        }
+
+        .nav-btn.izzy-tab:hover, .nav-btn.izzy-tab.active {
+            background: rgba(255, 45, 85, 0.1); border-color: rgba(255, 45, 85, 0.3); color: var(--izzy-pink);
+        }
+
+        /* --- VIEWPORT --- */
+        .viewport { flex-grow: 1; padding: 40px; overflow-y: auto; }
+        .view { display: none; animation: slideUp 0.5s ease forwards; }
+        .view.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- COMPONENTS --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .glass-card {
+            background: var(--glass); border: var(--border); border-radius: 24px;
+            padding: 25px; position: relative; overflow: hidden; backdrop-filter: blur(10px);
+        }
+        .glass-card:hover { border-color: var(--accent); background: rgba(255, 255, 255, 0.06); transform: translateY(-5px); }
+        
+        .card-img {
+            width: 100%; height: 180px; background: rgba(255,255,255,0.05);
+            border-radius: 18px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .card-img:hover { filter: brightness(1.2); border-color: var(--accent); }
+
+        /* --- SOCIAL BUTTONS STYLING --- */
+        .social-container { display: flex; gap: 15px; margin-top: 10px; }
+        .social-btn { color: #fff; font-size: 1.2rem; opacity: 0.6; text-decoration: none; display: flex; align-items: center; }
+        .social-btn:hover { opacity: 1; transform: translateY(-2px); }
+        .social-btn.ttv:hover { color: #9146ff; }
+        .social-btn.yt:hover { color: #ff0000; }
+        .social-btn.x:hover { color: var(--accent); }
+
+        .stat-label { font-size: 0.7rem; color: var(--accent); letter-spacing: 1px; display: block; }
+        .stat-value { font-size: 1.4rem; color: #fff; margin-bottom: 10px; }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; overflow: auto; }
+            .sidebar {
+                width: 100%; height: 70px; flex-direction: row; 
+                padding: 10px; position: fixed; bottom: 0; left: 0;
+                border-right: none; border-top: 1px solid rgba(255, 255, 255, 0.1);
+                justify-content: space-around; align-items: center;
+                background: rgba(15, 15, 20, 0.95);
+            }
+            .sidebar:hover { width: 100%; padding: 10px; }
+            .sidebar div:first-child { display: none; }
+            .nav-btn { width: auto; padding: 12px; margin-bottom: 0; }
+            .nav-btn span { display: none; }
+            
+            .viewport { padding: 20px; padding-bottom: 100px; height: auto; }
+            .grid { grid-template-columns: 1fr; }
+            .glass-card { grid-column: span 1 !important; padding: 15px; }
+            
+            .glass-card[style*="display: flex"] { flex-direction: column; text-align: center; gap: 20px !important; }
+            .social-container { justify-content: center; }
+            h1 { font-size: 2.5rem !important; }
+
+            .music-bar { flex-direction: column; gap: 15px; align-items: flex-start; }
+            #volume-slider { width: 100% !important; }
+        }
+
+        /* --- TIMELINES & SHOP --- */
+        .timeline-container { padding: 20px; background: var(--glass); border: var(--border); border-radius: 24px; }
+        .timeline-item { padding-left: 30px; border-left: 2px solid var(--accent); margin-bottom: 25px; position: relative; }
+        .timeline-item.izzy { border-left-color: var(--izzy-pink); }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px;
+            background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent);
+        }
+        .timeline-item.izzy::before { background: var(--izzy-pink); box-shadow: 0 0 10px var(--izzy-pink); }
+        .timeline-date { font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 5px; }
+        .timeline-date.izzy { color: var(--izzy-pink); }
+        .timeline-content { font-size: 0.9rem; opacity: 0.8; }
+
+        .price-tag { color: #00ff88; font-size: 1.6rem; font-weight: bold; margin: 10px 0; display: block; }
+        .buy-group { display: flex; gap: 10px; margin-top: 20px; }
+        .buy-btn { 
+            flex: 1; text-align: center; padding: 12px; border-radius: 12px; 
+            text-decoration: none; font-size: 0.75rem; font-weight: bold;
+            color: #fff; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .buy-btn:hover { background: #fff; color: #000; }
+        .buy-btn.cash { border-color: #00d632; color: #00d632; }
+        .buy-btn.cash:hover { background: #00d632; color: #fff; }
+
+        /* --- MARQUEE & MUSIC --- */
+        .marquee-container {
+            width: 100%; overflow: hidden; background: rgba(255, 45, 85, 0.02);
+            border: 1px solid rgba(255, 45, 85, 0.2); border-radius: 20px;
+            padding: 20px 0; margin-bottom: 40px;
+        }
+        .marquee-track { display: flex; gap: 15px; width: max-content; animation: scrollLeft 13s linear infinite; }
+        .marquee-item {
+            width: 150px; height: 150px; background: transparent;
+            border-radius: 15px; flex-shrink: 0; display: flex; 
+            align-items: center; justify-content: center; overflow: hidden;
+        }
+        .marquee-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
+        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .music-bar {
+            background: var(--glass); backdrop-filter: blur(20px); border: var(--border);
+            border-radius: 20px; padding: 20px; margin-bottom: 40px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div style="margin-bottom: 50px; text-align: center;">
+        <img src="./assets/keyzz.gif" style="width: 90px; height: 90px; border-radius: 50%;">
+    </div>
+    <nav>
+        <button class="nav-btn active" onclick="showTab('exam', this)"><i class="fa-solid fa-dna"></i> <span>Examination</span></button>
+        <button class="nav-btn izzy-tab" onclick="showTab('izzy', this)"><i class="fa-solid fa-heart"></i> <span>I + I</span></button>
+        <button class="nav-btn" onclick="showTab('rig', this)"><i class="fa-solid fa-microchip"></i> <span>setup/sens</span></button>
+        <button class="nav-btn" onclick="showTab('shop', this)"><i class="fa-solid fa-cart-shopping"></i> <span>shop</span></button>
+        <button class="nav-btn" onclick="showTab('projects', this)"><i class="fa-solid fa-folder-open"></i> <span>projects</span></button>
+        <button class="nav-btn" onclick="showTab('void', this)"><i class="fa-solid fa-ghost"></i> <span>my void</span></button>
+        <button class="nav-btn" onclick="showTab('network', this)"><i class="fa-solid fa-circle-nodes"></i> <span>network</span></button>
+    </nav>
+</aside>
+
+<main class="viewport">
+    <div class="music-bar">
+        <div>
+            <div id="track-display" style="font-size: 0.7rem; color: var(--accent); letter-spacing: 2px;">NEURAL_AUDIO: READY</div>
+            <div style="margin-top: 10px; display: flex; gap: 20px; font-size: 1.2rem;">
+                <i class="fa-solid fa-backward-step" onclick="prevSong()" style="cursor: pointer;"></i>
+                <i class="fa-solid fa-play" id="play-btn" onclick="togglePlay()" style="cursor: pointer;"></i>
+                <i class="fa-solid fa-forward-step" onclick="nextSong()" style="cursor: pointer;"></i>
+            </div>
+        </div>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.25" style="width: 200px;">
+    </div>
+
+    <div id="view-exam" class="view active">
+        <div class="grid">
+            <div class="glass-card" style="grid-column: span 2; display: flex; gap: 40px; align-items: center;">
+                <img src="./assets/ilyas.jpg" style="width: 160px; height: 160px; border-radius: 50%; border: 4px solid var(--accent); object-fit: cover;">
+                <div>
+                    <h1 style="font-size: 4rem; margin: 0; line-height: 1;">Ilyas</h1>
+                    <div class="social-container">
+                        <a href="https://twitch.tv/keyzzilla" target="_blank" class="social-btn ttv"><i class="fa-brands fa-twitch"></i></a>
+                        <a href="https://youtube.com/@keyzzilla" target="_blank" class="social-btn yt"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://x.com/keyzzilla" target="_blank" class="social-btn x"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                    <p style="color: var(--accent); letter-spacing: 3px; margin-top: 10px;">Fortnite Pro // @keyzzilla</p>
+                    <p style="opacity: 0.6;">Owner @TeamMonsterGG and manualkey.org</p>
+                </div>
+            </div>
+
+            <div class="glass-card" style="grid-column: span 2;">
+                <span class="stat-label">Biography_Log</span>
+                <div class="timeline-container" style="margin-top: 20px; background: transparent; border: none; padding: 0;">
+                    <div class="timeline-item">
+                        <div class="timeline-date">09/01/2012</div>
+                        <div class="timeline-content">born in austin, texas. started with nothing but a nintendo switch and a dream.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">EARLY 2022</div>
+                        <div class="timeline-content">neighbor gave me a 2014 laptop. discovered minecraft and geforce now for fortnite using a $0.99 thrift store keyboard.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">07/01/2023</div>
+                        <div class="timeline-content">built my first pc from parts bought by my uncle. started playing non-stop.</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">10/14/2023</div>
+                        <div class="timeline-content">youtube channel born. start of content creation era.</div>
+                    </div>
+                    <div class="timeline-item" style="margin-bottom: 0;">
+                        <div class="timeline-date">PRESENT</div>
+                        <div class="timeline-content">joined team sarrow, 2am esports, and beneath reality. developing keyzzilla.com redo.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <span class="stat-label">Physicality</span>
+                <div class="stat-value">5'7" // 135 LBS</div>
+                <span class="stat-label">Birth Record</span>
+                <div class="stat-value">09/01/2012 @ 3:14 AM</div>
+            </div>
+            <div class="glass-card" style="border-color: var(--izzy-pink);" onclick="showTab('izzy', document.querySelector('.izzy-tab'))">
+                <span class="stat-label" style="color: var(--izzy-pink);">Izzy_Sync</span>
+                <div class="stat-value">Dating Izabella</div>
+                <div style="font-size: 0.8rem; opacity: 0.6;">Est. 01/10/26</div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">Athletic Status</span>
+                <div class="stat-value">Flag Football: 4-0</div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">Social Impact</span>
+                <div class="stat-value">300K+ Views // 2K+ Subs</div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">Sponsors</span>
+                <div style="display: flex; gap: 20px; align-items: center; margin-top: 10px;">
+                    <a href="https://amzn.to/4rMSmt4" target="_blank"><img src="./assets/amazon.png" style="height: 25px; filter: brightness(0) invert(1); cursor: pointer;"></a>
+                    <a href="https://www.dubby.gg/collections/all?ref=KEYZZILLA" target="_blank"><img src="./assets/dubbyicon.png" style="height: 25px; cursor: pointer;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-rig" class="view">
+        <div class="grid">
+            <div class="glass-card">
+                <a href="https://www.logitechg.com/en-us/products/gaming-mice/pro-wireless-mouse.910-005270.html" target="_blank">
+                    <img src="./assets/gpro.jpg" class="card-img">
+                </a>
+                <span class="stat-label">mouse</span>
+                <div class="stat-value">Logitech G Pro Wireless</div>
+            </div>
+            <div class="glass-card">
+                <a href="https://steelseries.com/gaming-keyboards/apex-pro-tkl-wireless" target="_blank">
+                    <img src="./assets/aptkl.jpg" class="card-img">
+                </a>
+                <span class="stat-label">keyboard</span>
+                <div class="stat-value">Apex Pro TKL Wireless</div>
+            </div>
+            <div class="glass-card" style="grid-column: span 2;">
+                <span class="stat-label">display_array</span>
+                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                    <div style="flex: 1;">
+                        <img src="./assets/m1.jpg" class="card-img" style="height: 120px;">
+                        <div class="stat-value" style="font-size: 0.8rem;">1: 240Hz 1080p</div>
+                    </div>
+                    <div style="flex: 1;">
+                        <img src="./assets/m2.jpg" class="card-img" style="height: 120px;">
+                        <div class="stat-value" style="font-size: 0.8rem;">2: 60Hz | 3: 100Hz | 4: 75Hz</div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card" style="grid-column: span 2;">
+                <span class="stat-label">PC</span>
+                <div style="display: flex; gap: 20px; align-items: center; margin-top: 15px;">
+                    <img src="./assets/pc.jpg" class="card-img" style="width: 200px; margin-bottom: 0;">
+                    <div class="stat-value" style="font-size: 1rem; line-height: 1.6;">
+                        i9-12900k // RTX 4060<br>
+                        32GB DDR4 2400MHz<br>
+                        1TB SSD + 1TB HDD // 64GB Flash (x3)
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">Gear</span>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <a href="https://www.maono.com/products/maono-dgm20-condenser-gaming-microphone" target="_blank" style="flex: 1;">
+                        <img src="./assets/mic.jpg" class="card-img" style="height: 100px;">
+                        <div style="font-size: 0.7rem; text-align: center;">Maono DGM20S</div>
+                    </a>
+                    <a href="https://www.logitech.com/en-us/products/webcams/c920x-pro-hd-webcam.960-001384.html" target="_blank" style="flex: 1;">
+                        <img src="./assets/webcam.jpg" class="card-img" style="height: 100px;">
+                        <div style="font-size: 0.7rem; text-align: center;">Logitech C920x</div>
+                    </a>
+                </div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">mobile_terminal</span>
+                <img src="./assets/iphone17.jpg" class="card-img" style="height: 100px;">
+                <div class="stat-value" style="font-size: 0.9rem;">iPhone 17 Pro 256GB</div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">sensitivity_input</span>
+                <div class="stat-value">x: 8.1% // y: 8.1%</div>
+                <div class="stat-label">dpi: 800</div>
+            </div>
+            <div class="glass-card">
+                <span class="stat-label">movement_binds</span>
+                <div style="font-size: 0.8rem; opacity: 0.8;">
+                    w/s/a/d: move<br>
+                    space: jump | shift: sprint<br>
+                    strafe angle: 72° (enabled)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-izzy" class="view">
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <div class="marquee-item"><img src="./assets/1.jpg"></div>
+                <div class="marquee-item"><img src="./assets/2.jpg"></div>
+                <div class="marquee-item"><img src="./assets/3.jpg"></div>
+                <div class="marquee-item"><img src="./assets/4.jpg"></div>
+                <div class="marquee-item"><img src="./assets/5.jpg"></div>
+                <div class="marquee-item"><img src="./assets/6.jpg"></div>
+                <div class="marquee-item"><img src="./assets/7.jpg"></div>
+                <div class="marquee-item"><img src="./assets/8.jpeg"></div>
+                <div class="marquee-item"><img src="./assets/9.jpeg"></div>
+                <div class="marquee-item"><img src="./assets/1.jpg"></div>
+                <div class="marquee-item"><img src="./assets/2.jpg"></div>
+                <div class="marquee-item"><img src="./assets/3.jpg"></div>
+                <div class="marquee-item"><img src="./assets/4.jpg"></div>
+                <div class="marquee-item"><img src="./assets/5.jpg"></div>
+                <div class="marquee-item"><img src="./assets/6.jpg"></div>
+                <div class="marquee-item"><img src="./assets/7.jpg"></div>
+                <div class="marquee-item"><img src="./assets/8.jpeg"></div>
+                <div class="marquee-item"><img src="./assets/9.jpeg"></div>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="glass-card" style="grid-column: span 2; text-align: center; border-color: var(--izzy-pink);">
+                <h2 style="font-size: 3rem;">izabella_sync</h2>
+                <div class="stat-value" id="days-count" style="color: var(--izzy-pink);">000 days</div>
+            </div>
+            <div class="timeline-container" style="grid-column: span 2;">
+                <span class="stat-label" style="color: var(--izzy-pink); margin-bottom: 20px;">The_Story_Log</span>
+                <div class="timeline-item izzy">
+                    <div class="timeline-date izzy">12/13/2025</div>
+                    <div class="timeline-content">first talked at our football game. won our first game together. 🏈</div>
+                </div>
+                <div class="timeline-item izzy">
+                    <div class="timeline-date izzy">01/08/2026</div>
+                    <div class="timeline-content">reconnected at practice after nearly a month.</div>
+                </div>
+                <div class="timeline-item izzy">
+                    <div class="timeline-date izzy">01/10/2026</div>
+                    <div class="timeline-content">izabella scored a touchdown—i fell in love right there. won by 30+, exchanged numbers, and i asked her out that night. ❤️</div>
+                </div>
+                <div class="timeline-item izzy">
+                    <div class="timeline-date izzy">02/10/2026</div>
+                    <div class="timeline-content">our 1 month anniversary.</div>
+                </div>
+                <div class="timeline-item izzy" style="margin-bottom: 0;">
+                    <div class="timeline-date izzy">02/14/2026</div>
+                    <div class="timeline-content">valentines date. won our 4th game, had dinner, and watched a movie.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-shop" class="view">
+        <div class="grid">
+            <div class="glass-card">
+                <img src="./assets/indie.jpg" class="card-img">
+                <h3>indie</h3>
+                <span class="price-tag">$3</span>
+                <div class="buy-group">
+                    <a href="https://cash.app/$keyzzbtw" class="buy-btn cash"><i class="fa-solid fa-dollar-sign"></i> cash app</a>
+                    <a href="https://paypal.me/keyzzwtw" class="buy-btn"><i class="fa-brands fa-paypal"></i> paypal</a>
+                </div>
+            </div>
+            <div class="glass-card">
+                <img src="./assets/kc.jpg" class="card-img">
+                <h3>keyzz classic</h3>
+                <span class="price-tag">$7</span>
+                <div class="buy-group">
+                    <a href="https://cash.app/$keyzzbtw" class="buy-btn cash"><i class="fa-solid fa-dollar-sign"></i> cash app</a>
+                    <a href="https://paypal.me/keyzzwtw" class="buy-btn"><i class="fa-brands fa-paypal"></i> paypal</a>
+                </div>
+            </div>
+            <div class="glass-card">
+                <img src="./assets/full.jpg" class="card-img">
+                <h3>best of the best</h3>
+                <span class="price-tag">$11</span>
+                <div class="buy-group">
+                    <a href="https://cash.app/$keyzzbtw" class="buy-btn cash"><i class="fa-solid fa-dollar-sign"></i> cash app</a>
+                    <a href="https://paypal.me/keyzzwtw" class="buy-btn"><i class="fa-brands fa-paypal"></i> paypal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-projects" class="view">
+        <div class="grid">
+            <div class="glass-card" onclick="window.open('https://teammonster.org', '_blank')">
+                <img src="./assets/monster.png" class="card-img" style="cursor: pointer;">
+                <h3>Team Monster</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://manualkey.org', '_blank')">
+                <img src="./assets/manualkey.jpg" class="card-img" style="cursor: pointer;">
+                <h3>ManualKey</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://seasoftware.dev', '_blank')">
+                <img src="./assets/sea.jpg" class="card-img" style="cursor: pointer;">
+                <h3>sea software</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://keyzzilla.com', '_blank')">
+                <img src="./assets/keyzzilla.jpg" class="card-img" style="cursor: pointer;">
+                <h3>this website</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-network" class="view">
+        <div class="grid">
+            <div class="glass-card" onclick="window.open('https://youtube.com/@WoahKurs', '_blank')">
+                <img src="./assets/kurs.jpg" class="card-img" style="cursor: pointer;">
+                <h3>@WoahKurs</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://twitch.tv/KrimpletTV', '_blank')">
+                <img src="./assets/krimpi.png" class="card-img" style="cursor: pointer;">
+                <h3>@KrimpletTV</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://wyind.dev', '_blank')">
+                <img src="./assets/wyind.jpeg" class="card-img" style="cursor: pointer;">
+                <h3>@WyindSZN</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://guns.lol/voidzszn', '_blank')">
+                <img src="./assets/voidz.png" class="card-img" style="cursor: pointer;">
+                <h3>@voidzszn</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://ryanpc.org', '_blank')">
+                <img src="./assets/ryan.png" class="card-img" style="cursor: pointer;">
+                <h3>@ryanpc_org</h3>
+            </div>
+            <div class="glass-card" onclick="window.open('https://www.youtube.com/channel/UCztunHGUe1atVTtmhGQgV7Q', '_blank')">
+                <img src="./assets/rylo.png" class="card-img" style="cursor: pointer;">
+                <h3>@Rylovfx</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-void" class="view">
+        <div class="glass-card">
+            <span class="stat-label">2025.12.24</span>
+            <h2>MONSTER_REBOOT</h2>
+            <p style="opacity: 0.7;">Team Monster is back up with a rerelease!</p>
+        </div>
+    </div>
+</main>
+
+<audio id="audio-el"></audio>
+
+<script>
+    function showTab(id, btn) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('view-' + id).classList.add('active');
+        if(btn) btn.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    const anniversary = new Date('2026-01-10T22:47:00');
+    function updateCounter() {
+        const diff = new Date() - anniversary;
+        const el = document.getElementById('days-count');
+        if(el) el.innerText = `${Math.floor(diff / (1000 * 60 * 60 * 24))} days together`;
+    }
+    updateCounter();
+    setInterval(updateCounter, 86400000);
+
+    const audio = document.getElementById('audio-el');
+    const volumeSlider = document.getElementById('volume-slider');
+    
+    audio.volume = 0.25;
+    if(volumeSlider) volumeSlider.value = 0.25;
+
+    if(volumeSlider) {
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+    }
+
+    const songs = ['assets/songs/jetlggd.mp3', 'assets/songs/murdamusik.mp3', 'assets/songs/freestyle3.mp3', 
+        'assets/songs/succubus.mp3', 'assets/songs/veteran.mp3', 'assets/songs/4raws.mp3', 
+        'assets/songs/cfml.mp3', 'assets/songs/shotdown.mp3', 'assets/songs/shottaflow.mp3', 
+        'assets/songs/popshii.mp3'];
+    let currentIdx = 0;
+
+    function togglePlay() { 
+        if (audio.paused) { 
+            audio.play(); 
+            document.getElementById('play-btn').className = "fa-solid fa-pause"; 
+        } else { 
+            audio.pause(); 
+            document.getElementById('play-btn').className = "fa-solid fa-play"; 
+        }
+    }
+    
+    function nextSong() { 
+        currentIdx = (currentIdx + 1) % songs.length; 
+        audio.src = songs[currentIdx]; 
+        audio.play(); 
+        document.getElementById('play-btn').className = "fa-solid fa-pause";
+    }
+    
+    function prevSong() { 
+        currentIdx = (currentIdx - 1 + songs.length) % songs.length; 
+        audio.src = songs[currentIdx]; 
+        audio.play(); 
+        document.getElementById('play-btn').className = "fa-solid fa-pause";
+    }
+
+    audio.src = songs[0];
+</script>
+</body>
+</html>
