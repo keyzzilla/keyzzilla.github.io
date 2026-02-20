@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 // SYSTEM_FAILURE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('https://fonts.cdnfonts.com/s/14899/Coolveticarg.woff') format('woff');
+        }
+
+        :root {
+            --bg: #030305;
+            --accent: #00f2ff;
+            --error: #ff2d55;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Coolvetica', sans-serif;
+            text-transform: lowercase;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* scanline effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            margin: 0;
+            color: var(--error);
+            text-shadow: 2px 0 var(--accent), -2px 0 #fff;
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        .msg {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .terminal-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 400px;
+            margin-bottom: 40px;
+        }
+
+        .terminal-text {
+            color: var(--accent);
+            font-family: monospace !important;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .reboot-btn {
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .reboot-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+            box-shadow: 0 0 20px var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="error-code">404</h1>
+    <div class="msg">sector_not_found</div>
+
+    <div class="terminal-box">
+        <div class="terminal-text">
+            > accessing network... <br>
+            > error: directory "keyzzilla/void" is restricted <br>
+            > status: connection_lost <br>
+            > warning: stay where you are.
+        </div>
+    </div>
+
+    <a href="index.html" class="reboot-btn">
+        <i class="fa-solid fa-power-off"></i> reboot_system
+    </a>
+
+</body>
+</html>
