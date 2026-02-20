@@ -39,7 +39,6 @@
             margin: 0; height: 100vh; display: flex; overflow: hidden;
         }
 
-        /* --- NAVIGATION --- */
         .sidebar {
             width: 80px; background: var(--panel); backdrop-filter: blur(30px);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -56,7 +55,6 @@
             width: 100%;
         }
 
-        /* updated font rules to support both free icons and brand icons */
         .nav-btn i, .fa-solid, .fa-circle-nodes, .fa-brands { 
             min-width: 25px; 
             text-align: center;
@@ -78,13 +76,11 @@
             background: rgba(255, 45, 85, 0.1); border-color: rgba(255, 45, 85, 0.3); color: var(--izzy-pink);
         }
 
-        /* --- VIEWPORT --- */
         .viewport { flex-grow: 1; padding: 40px; overflow-y: auto; }
         .view { display: none; animation: slideUp 0.5s ease forwards; }
         .view.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- COMPONENTS --- */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
         .glass-card {
             background: var(--glass); border: var(--border); border-radius: 24px;
@@ -100,7 +96,6 @@
         }
         .card-img:hover { filter: brightness(1.2); border-color: var(--accent); }
 
-        /* --- SOCIAL BUTTONS STYLING --- */
         .social-container { display: flex; gap: 15px; margin-top: 10px; }
         .social-btn { color: #fff; font-size: 1.2rem; opacity: 0.6; text-decoration: none; display: flex; align-items: center; }
         .social-btn:hover { opacity: 1; transform: translateY(-2px); }
@@ -111,7 +106,6 @@
         .stat-label { font-size: 0.7rem; color: var(--accent); letter-spacing: 1px; display: block; }
         .stat-value { font-size: 1.4rem; color: #fff; margin-bottom: 10px; }
 
-        /* --- MOBILE RESPONSIVENESS --- */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow: auto; }
             .sidebar {
@@ -138,7 +132,6 @@
             #volume-slider { width: 100% !important; }
         }
 
-        /* --- TIMELINES & SHOP --- */
         .timeline-container { padding: 20px; background: var(--glass); border: var(--border); border-radius: 24px; }
         .timeline-item { padding-left: 30px; border-left: 2px solid var(--accent); margin-bottom: 25px; position: relative; }
         .timeline-item.izzy { border-left-color: var(--izzy-pink); }
@@ -163,7 +156,6 @@
         .buy-btn.cash { border-color: #00d632; color: #00d632; }
         .buy-btn.cash:hover { background: #00d632; color: #fff; }
 
-        /* --- MARQUEE & MUSIC --- */
         .marquee-container {
             width: 100%; overflow: hidden; background: rgba(255, 45, 85, 0.02);
             border: 1px solid rgba(255, 45, 85, 0.2); border-radius: 20px;
