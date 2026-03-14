@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>friends — keyzzilla</title>
+    <meta name="description" content="keyzzilla's creative network and friends.">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .friend-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .friend-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--border-accent);
+        }
+
+        .friend-card h3 {
+            color: var(--text);
+            margin-bottom: 0.25rem;
+            font-size: 1.2rem;
+        }
+
+        .friend-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo" style="display: flex; align-items: center;"><img src="assets/keyzz.gif"
+                alt="keyzzilla logo" style="height: 30px; object-fit: contain;"></a>
+        <ul class="nav-links">
+            <li><a href="index.html">home</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="setup.html">setup</a></li>
+            <li><a href="timeline.html">timeline</a></li>
+            <li><a href="friends.html" class="active">friends</a></li>
+            <li><a href="contact.html">contact</a></li>
+        </ul>
+        <button class="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="page">
+        <div class="section">
+            <p class="section-tag reveal">//&nbsp;network</p>
+            <h1 class="section-title reveal">my friends</h1>
+            <p class="section-subtitle reveal" style="margin-bottom: 4rem;">the talented creators, developers, and
+                people i work alongside.</p>
+
+            <div class="friends-grid">
+
+                <a href="https://youtube.com/@WoahKurs" target="_blank" class="glass friend-card reveal">
+                    <img src="assets/kurs.jpg" alt="@WoahKurs">
+                    <h3>@woahkurs</h3>
+                    <p>token pro</p>
+                </a>
+
+                <a href="https://twitch.tv/KrimpletTV" target="_blank" class="glass friend-card reveal"
+                    style="transition-delay: 0.1s;">
+                    <img src="assets/krimpi.png" alt="@KrimpletTV">
+                    <h3>@krimplettv</h3>
+                    <p>streamer</p>
+                </a>
+
+                <a href="https://wyind.dev" target="_blank" class="glass friend-card reveal"
+                    style="transition-delay: 0.2s;">
+                    <img src="assets/wyind.jpeg" alt="@WyindSZN">
+                    <h3>@wyindszn</h3>
+                    <p>developer</p>
+                </a>
+
+                <a href="https://guns.lol/voidzszn" target="_blank" class="glass friend-card reveal"
+                    style="transition-delay: 0.3s;">
+                    <img src="assets/voidz.png" alt="@voidzszn">
+                    <h3>@voidzszn</h3>
+                    <p>token pro</p>
+                </a>
+
+                <a href="https://ryanpc.org" target="_blank" class="glass friend-card reveal"
+                    style="transition-delay: 0.4s;">
+                    <img src="assets/ryan.png" alt="@ryanpc_org">
+                    <h3>@ryanpc_org</h3>
+                    <p>developer</p>
+                </a>
+
+                <a href="https://www.youtube.com/channel/UCztunHGUe1atVTtmhGQgV7Q" target="_blank"
+                    class="glass friend-card reveal" style="transition-delay: 0.5s;">
+                    <img src="assets/rylo.png" alt="@rylovfx">
+                    <h3>@rylovfx</h3>
+                    <p>editor</p>
+                </a>
+
+            </div>
+        </div>
+
+        <footer>
+            crafted with <span>love</span> by keyzzilla &nbsp;·&nbsp; <span>2026</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

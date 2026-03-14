@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about — keyzzilla</title>
+    <meta name="description"
+        content="learn about ilyas (keyzzilla) — creative developer, vfx editor, and gfx designer.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo" style="display: flex; align-items: center;"><img src="assets/keyzz.gif"
+                alt="keyzzilla logo" style="height: 30px; object-fit: contain;"></a>
+        <ul class="nav-links">
+            <li><a href="index.html">home</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="setup.html">setup</a></li>
+            <li><a href="timeline.html">timeline</a></li>
+            <li><a href="friends.html">friends</a></li>
+            <li><a href="contact.html">contact</a></li>
+        </ul>
+        <button class="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="page">
+        <div class="section">
+            <p class="section-tag reveal">//&nbsp;about me</p>
+            <h1 class="section-title reveal">the person behind the screen</h1>
+            <p class="section-subtitle reveal" style="margin-bottom:4rem;">a deep dive into my creative journey,
+                technical stack, and personal projects.</p>
+
+            <div class="about-grid">
+                <div class="about-sidebar">
+                    <div class="glass profile-card reveal">
+                        <img src="assets/ilyas.jpg" alt="Ilyas">
+                        <div class="profile-name">ilyas</div>
+
+                        <div style="display: flex; gap: 0.75rem; justify-content: center; margin: 0.75rem 0;">
+                            <a href="https://youtube.com/@keyzzilla" target="_blank"
+                                style="color: var(--text-muted); transition: color 0.3s ease; display:flex;"
+                                aria-label="YouTube" onmouseover="this.style.color='#ff0000'"
+                                onmouseout="this.style.color='var(--text-muted)'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                                </svg>
+                            </a>
+                            <a href="https://twitter.com/keyzzxvz" target="_blank"
+                                style="color: var(--text-muted); transition: color 0.3s ease; display:flex;"
+                                aria-label="Twitter (X)" onmouseover="this.style.color='var(--text)'"
+                                onmouseout="this.style.color='var(--text-muted)'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                </svg>
+                            </a>
+                            <a href="https://twitch.tv/keyzzvv" target="_blank"
+                                style="color: var(--text-muted); transition: color 0.3s ease; display:flex;"
+                                aria-label="Twitch" onmouseover="this.style.color='#9146FF'"
+                                onmouseout="this.style.color='var(--text-muted)'">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path
+                                        d="M2.149 0l-1.612 4.119v16.836h5.731v3.045h3.224l3.045-3.045h4.657l6.806-6.806v-14.149h-21.851zm19.344 13.134l-4.119 4.119h-5.731l-3.045 3.045v-3.045h-4.836v-15.045h17.731v10.926zm-9.135-7.343v6.089h-2.149v-6.089h2.149zm5.373 0v6.089h-2.149v-6.089h2.149z" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="profile-role">vfx & web dev</div>
+                        <div class="profile-stat">
+                            <span class="stat-icon">📍</span>
+                            <span><strong>based in</strong> austin, texas</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-icon">🎂</span>
+                            <span><strong>age</strong> 13 (born 2012)</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-icon">❤️</span>
+                            <span><strong>status</strong> dating izzy</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-icon">🌐</span>
+                            <span><strong>handle</strong> @keyzzilla</span>
+                        </div>
+
+                        <div style="margin-top:1.5rem;">
+                            <a href="contact.html" class="btn btn-primary"
+                                style="width:100%; justify-content:center;">get in touch →</a>
+                        </div>
+                    </div>
+
+                    <div class="glass skills-card reveal">
+                        <h4>core skills</h4>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-label"><span>vfx editing</span><span>95%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-label"><span>gfx design</span><span>15%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="15%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-label"><span>web development</span><span>88%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="88%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar-wrap">
+                            <div class="skill-label"><span>app dev</span><span>49%</span></div>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="49%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-content">
+                    <div class="glass content-card reveal">
+                        <h3>👋 who am i?</h3>
+                        <p>i'm ilyas, better known as keyzzilla. i'm a 13 year old creative developer and designer based
+                            in austin, texas. i specialize in crafting high performance digital experiences that blend
+                            aesthetic beauty with technical precision.</p>
+                        <p>my journey started with a nintendo switch and a passion for gaming, which evolved into a
+                            career in vfx editing and web development. i own teammonstergg and have worked as a creative
+                            for major esportsorgs like team sarrow and 2am esports.</p>
+                    </div>
+
+                    <div class="glass content-card reveal">
+                        <h3>💻 the battlestation</h3>
+                        <p>i built my first pc on july 1, 2023. it's the core of my creative workflow. here's what i'm
+                            running:</p>
+                        <ul style="list-style: none; color: var(--text-muted); line-height: 1.8; margin-top: 1rem;">
+                            <li><strong>cpu:</strong> intel core i9-12900k</li>
+                            <li><strong>gpu:</strong> nvidia geforce rtx 4060</li>
+                            <li><strong>ram:</strong> 32gb ddr5</li>
+                            <li><strong>storage:</strong> 2tb ssd</li>
+                            <li><strong>keyboard:</strong> steelseries apex pro tkl</li>
+                            <li><strong>mouse:</strong> logitech g pro x superlight 2</li>
+                        </ul>
+                        <img src="assets/pc.jpg" alt="Battlestation"
+                            style="width:100%; border-radius: 12px; margin-top: 1.5rem; border: 1px solid var(--border);">
+                    </div>
+
+                    <div class="glass content-card reveal">
+                        <h3>💡 focus & vision</h3>
+                        <p>i'm currently focused on glassmorphism, terminal UI design, and web accessibility. i believe
+                            that the web should be both visually stunning and inclusive for everyone.</p>
+                        <p>my current projects include <strong>velozzy</strong> (a custom chromium browser) and
+                            <strong>zillaai</strong> (a discord integration assistant). I also maintain the
+                            <strong>universal manual archive</strong> at manualkey.org.
+                        </p>
+                    </div>
+
+                    <div class="glass content-card reveal">
+                        <h3>⚽ beyond the code</h3>
+                        <p>outside of tech, i'm an athlete. i play soccer and flag football (currently holding a 4-0
+                            record). i value the discipline and teamwork that sports provide.</p>
+                        <p>i'm also happily dating izabella. we met on december 13, 2025, at one of her football
+                            games. she's a huge part of my life and a constant inspiration.</p>
+                        <div class="interest-tags">
+                            <span class="tag">html</span>
+                            <span class="tag">css</span>
+                            <span class="tag">javascript</span>
+                            <span class="tag">python</span>
+                            <span class="tag">youtube</span>
+                            <span class="tag">vfx</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            crafted with <span>love</span> by keyzzilla &nbsp;·&nbsp; <span>2026</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

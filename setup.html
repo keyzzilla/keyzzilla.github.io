@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setup — keyzzilla</title>
+    <meta name="description" content="explore keyzzilla's creative rig.">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            padding: 4px;
+            object-fit: cover;
+            filter: drop-shadow(0 0 15px rgba(var(--accent-rgb, 0, 150, 255), 0.3));
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-img-container {
+            width: 100%;
+            height: 240px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .glass-card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-label {
+            font-family: monospace;
+            color: var(--accent);
+            font-size: 0.75rem;
+            text-transform: lowercase;
+            letter-spacing: 0.15em;
+            opacity: 0.6;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .featured-text {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+
+        /* Hero variation */
+        .card-hero {
+            grid-column: span 2;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .card-hero {
+                grid-column: span 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo" style="display: flex; align-items: center;"><img src="assets/keyzz.gif"
+                alt="keyzzilla logo" style="height: 30px; object-fit: contain;"></a>
+        <ul class="nav-links">
+            <li><a href="index.html">home</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="setup.html" class="active">setup</a></li>
+            <li><a href="timeline.html">timeline</a></li>
+            <li><a href="friends.html">friends</a></li>
+            <li><a href="contact.html">contact</a></li>
+        </ul>
+        <button class="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="page">
+        <div class="section">
+            <header class="page-header reveal">
+                <img src="assets/keyzzilla.jpg" alt="keyzzilla logo" class="header-logo">
+                <p class="section-tag">//&nbsp;hardware_rig</p>
+                <h1 class="section-title">the battlestation</h1>
+                <p class="section-subtitle">a technical archive of the creative environment.</p>
+            </header>
+
+            <div class="grid reveal">
+                <!-- Main PC -->
+                <div class="glass-card card-hero">
+                    <div class="card-img-container" style="height: 100%;">
+                        <img src="./assets/pc.jpg" class="card-img" alt="PC Build">
+                    </div>
+                    <div>
+                        <span class="stat-label">the_engine</span>
+                        <div class="stat-value" style="margin: 1rem 0;">core_system v12</div>
+                        <div class="featured-text" style="font-size: 1.15rem; line-height: 1.8;">
+                            i9-12900k // rtx 4060<br>
+                            32gb ddr4 2400mhz<br>
+                            1tb ssd + 1tb hdd<br>
+                            tri-storage architecture
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Display Array -->
+                <div class="glass-card">
+                    <div class="card-img-container">
+                        <img src="./assets/m2.jpg" class="card-img" alt="Display">
+                    </div>
+                    <span class="stat-label">visual_array</span>
+                    <div class="stat-value">quad_monitor terminal</div>
+                    <div class="featured-text">
+                        primary: 24hz 1080p high refresh<br>
+                        aux: 60hz | 100hz | 75hz
+                    </div>
+                </div>
+
+                <!-- Mouse -->
+                <a href="https://www.logitechg.com/en-us/products/gaming-mice/pro-wireless-mouse.910-005270.html"
+                    target="_blank" class="glass-card">
+                    <div class="card-img-container">
+                        <img src="./assets/gpro.jpg" class="card-img" alt="Mouse">
+                    </div>
+                    <span class="stat-label">input_primary</span>
+                    <div class="stat-value">logitech g pro wireless</div>
+                </a>
+
+                <!-- Keyboard -->
+                <a href="https://steelseries.com/gaming-keyboards/apex-pro-tkl-wireless" target="_blank"
+                    class="glass-card">
+                    <div class="card-img-container">
+                        <img src="./assets/aptkl.jpg" class="card-img" alt="Keyboard">
+                    </div>
+                    <span class="stat-label">input_secondary</span>
+                    <div class="stat-value">apex pro tkl wireless</div>
+                </a>
+
+                <!-- Gear -->
+                <div class="glass-card">
+                    <div
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; height: 180px; margin-bottom: 2rem;">
+                        <img src="./assets/mic.jpg" class="card-img" style="border-radius: 12px; height: 100%;"
+                            alt="Mic">
+                        <img src="./assets/webcam.jpg" class="card-img" style="border-radius: 12px; height: 100%;"
+                            alt="Cam">
+                    </div>
+                    <span class="stat-label">av_inputs</span>
+                    <div class="stat-value">maono + logitech gear</div>
+                </div>
+
+                <!-- Technical Footer -->
+                <div class="glass-card" style="justify-content: center; text-align: center;">
+                    <span class="stat-label">technical_meta</span>
+                    <div class="stat-value" style="margin: 1.5rem 0;">8.1% // 800 dpi</div>
+                    <div class="featured-text" style="margin: 0;">
+                        movement: space | shift<br>
+                        strafe: 72° enabled
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            crafted with <span>love</span> by keyzzilla &nbsp;·&nbsp; <span>2026</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+</html>

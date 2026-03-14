@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>contact — keyzzilla</title>
+    <meta name="description"
+        content="get in touch with keyzzilla for creative vfx, gfx, and web development inquiries.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo" style="display: flex; align-items: center;"><img src="assets/keyzz.gif"
+                alt="keyzzilla logo" style="height: 30px; object-fit: contain;"></a>
+        <ul class="nav-links">
+            <li><a href="index.html">home</a></li>
+            <li><a href="about.html">about</a></li>
+            <li><a href="setup.html">setup</a></li>
+            <li><a href="timeline.html">timeline</a></li>
+            <li><a href="friends.html">friends</a></li>
+            <li><a href="contact.html">contact</a></li>
+        </ul>
+        <button class="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="page">
+        <div class="section">
+            <p class="section-tag reveal">//&nbsp;contact</p>
+            <h1 class="section-title reveal">let's work together</h1>
+            <p class="section-subtitle reveal" style="margin-bottom: 4rem;">whether you have a project in mind, want to
+                collaborate, or just want to say hi — my inbox is always open.</p>
+
+            <div class="contact-grid">
+                <div class="glass contact-info-card reveal">
+                    <div>
+                        <h2>get in touch</h2>
+                        <p style="margin-top:0.8rem;">i'm always excited to hear about new projects and creative ideas.
+                            typically response within 24 hours.</p>
+                    </div>
+
+                    <a href="mailto:info@keyzzilla.com" class="contact-link">
+                        <div class="contact-link-icon">✉️</div>
+                        <div class="contact-link-text">
+                            <small>email</small>
+                            ilyas@keyzzilla.com
+                        </div>
+                    </a>
+
+                    <a href="https://github.com/keyzzilla" class="contact-link">
+                        <div class="contact-link-icon">🐙</div>
+                        <div class="contact-link-text">
+                            <small>github</small>
+                            github.com/keyzzilla
+                        </div>
+                    </a>
+
+                    <a href="https://twitter.com/keyzzilla" class="contact-link">
+                        <div class="contact-link-icon">🐦</div>
+                        <div class="contact-link-text">
+                            <small>twitter / x</small>
+                            @keyzzxvz
+                        </div>
+                    </a>
+
+                    <a href="https://keyzzilla.com" class="contact-link">
+                        <div class="contact-link-icon">🌐</div>
+                        <div class="contact-link-text">
+                            <small>main site</small>
+                            keyzzilla.com
+                        </div>
+                    </a>
+
+                    <div
+                        style="margin-top: auto; padding: 1.2rem; background: rgba(99,179,237,0.06); border: 1px solid rgba(99,179,237,0.2); border-radius: 12px;">
+                        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
+                            <div
+                                style="width:8px; height:8px; border-radius:50%; background:var(--accent-3); box-shadow:0 0 8px var(--accent-3); animation: float 2s ease-in-out infinite;">
+                            </div>
+                            <strong style="font-size:0.9rem;">available for projects</strong>
+                        </div>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">currently open for creative partnerships,
+                            vfx contracts, and web development projects for 2026.</p>
+                    </div>
+                </div>
+
+                <div class="glass contact-form-card reveal">
+                    <form id="contact-form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">your name</label>
+                                <input type="text" id="name" name="name" placeholder="jane smith" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">your email</label>
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">subject</label>
+                            <input type="text" id="subject" name="subject"
+                                placeholder="project inquiry / collaboration / say hi">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">message</label>
+                            <textarea id="message" name="message"
+                                placeholder="tell me about your project, idea, or question..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit" id="submit-btn">
+                            send message <span>→</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            crafted with <span>♥</span> by keyzzilla &nbsp;·&nbsp; <span>2026</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyzzilla.com</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('https://fonts.cdnfonts.com/s/14899/Coolveticarg.woff') format('woff');
+        }
+
+        :root {
+            --bg: #050505;
+            --accent: #00f2ff;
+            --izzy: #ff2d55;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; text-transform: lowercase; cursor: crosshair; }
+        body { background: var(--bg); color: var(--text); font-family: 'Coolvetica', sans-serif; overflow-x: hidden; line-height: 1; }
+
+        #init-overlay {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 1s ease;
+        }
+        #start-btn {
+            background: none; border: 1px solid var(--accent); color: var(--accent);
+            padding: 30px 60px; font-size: 1.5rem; letter-spacing: 5px; cursor: pointer; transition: 0.4s;
+        }
+        #start-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 30px var(--accent); }
+
+        #main-site { height: 100vh; overflow-y: scroll; opacity: 0; transition: opacity 1s ease; scroll-behavior: smooth; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 25px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; mix-blend-mode: difference;
+        }
+        .nav-gif { height: 45px; border-radius: 5px; }
+
+        .hero {
+            height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; background: #000;
+        }
+        .hero-bg {
+            position: absolute; width: 100%; height: 100%; 
+            object-fit: cover; opacity: 0.5; filter: grayscale(1) brightness(0.6);
+            z-index: 1;
+        }
+        .hero-title { font-size: 20vw; font-weight: 900; z-index: 10; letter-spacing: -1vw; position: relative; color: white; }
+
+        section { padding: 15vh 10vw; position: relative; z-index: 10; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .card-btn {
+            background: var(--glass); border: 1px solid var(--border); padding: 40px;
+            text-align: left; color: white; transition: 0.5s; width: 100%; cursor: pointer;
+            display: block; position: relative; overflow: hidden;
+        }
+        .card-btn:hover { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+        .card-btn.active { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+
+        .stat-label { font-size: 0.7rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .stat-value { font-size: 1.8rem; font-weight: 900; line-height: 1.1; }
+        .price-tag { color: var(--accent); font-size: 1.5rem; font-weight: 900; margin-top: 10px; display: block; }
+
+        .card-detail { max-height: 0; opacity: 0; transition: 0.5s ease; overflow: hidden; }
+        .card-btn.active .card-detail { max-height: 800px; opacity: 1; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+        
+        .card-img { width: 100%; height: auto; border: 1px solid var(--border); margin-bottom: 10px; transition: 0.3s; }
+
+        .buy-group { display: flex; gap: 10px; margin-top: 15px; }
+        .buy-btn { 
+            flex: 1; padding: 12px; text-align: center; font-size: 0.8rem; 
+            border: 1px solid var(--border); color: white; text-decoration: none; transition: 0.3s;
+        }
+        .buy-btn:hover { background: white; color: black; }
+        .buy-btn.cash:hover { background: #00d632; color: white; border-color: #00d632; }
+
+        .marquee { overflow: hidden; background: #000; padding: 40px 0; }
+        .track-scroll { display: flex; gap: 20px; animation: scroll 18s linear infinite; width: fit-content; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .track-scroll img { height: 250px; filter: grayscale(1); transition: 0.5s; }
+        .track-scroll img:hover { filter: grayscale(0); }
+
+        .music-player-fixed {
+            position: fixed; bottom: 30px; right: 30px; width: 350px;
+            background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(20px);
+            border: 1px solid var(--border); padding: 20px; z-index: 5000;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .track-info { display: flex; gap: 15px; align-items: center; }
+        .track-cover { width: 55px; height: 55px; object-fit: cover; border: 1px solid var(--border); }
+        .track-title { font-size: 0.9rem; font-weight: 900; color: var(--accent); }
+        .player-controls { display: flex; justify-content: space-between; align-items: center; }
+        .p-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; }
+
+        .section-tag { border-left: 5px solid var(--accent); padding-left: 20px; margin-bottom: 50px; font-size: 4vw; }
+
+        footer {
+            background: #000; padding: 100px 10vw; border-top: 1px solid var(--border);
+            text-align: center; display: flex; flex-direction: column; gap: 30px;
+        }
+        .social-links { display: flex; justify-content: center; gap: 40px; }
+        .social-btn { color: white; font-size: 2rem; transition: 0.3s; text-decoration: none; }
+        .social-btn:hover { color: var(--accent); transform: translateY(-5px); }
+        .footer-placeholder { opacity: 0.3; font-size: 0.8rem; letter-spacing: 2px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div id="init-overlay">
+        <button id="start-btn" onclick="initSystem()">click to see the 🐐</button>
+    </div>
+
+    <div id="main-site">
+        <nav>
+            <img src="./assets/keyzz.gif" class="nav-gif" alt="keyzz logo">
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <a href="https://amzn.to/4rMSmt4" target="_blank"><img src="./assets/amazon.png" style="height: 18px; filter: invert(1);"></a>
+                <a href="https://www.dubby.gg/collections/all?ref=KEYZZILLA" target="_blank"><img src="./assets/dubbyicon.png" style="height: 18px;"></a>
+            </div>
+        </nav>
+
+        <div class="hero">
+            <img src="./assets/slides.gif" class="hero-bg" alt="background">
+            <h1 class="hero-title">keyzz.</h1>
+        </div>
+
+        <section id="shop">
+            <h2 class="section-tag">shop.</h2>
+            <div class="grid">
+                <button class="card-btn" onclick="this.classList.toggle('active')">
+                    <img src="./assets/indie.jpg" class="card-img">
+                    <span class="stat-label">product_01</span>
+                    <div class="stat-value">indie pack</div>
+                    <span class="price-tag">$3</span>
+                    <div class="card-detail">
+                        <p>cheapest you can get. super simple.</p>
+                        <div class="buy-group">
+                            <a href="https://cash.app/$keyzzbtw" class="buy-btn cash">cash app</a>
+                            <a href="https://paypal.me/keyzzwtw" class="buy-btn">paypal</a>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="card-btn" onclick="this.classList.toggle('active')">
+                    <img src="./assets/kc.jpg" class="card-img">
+                    <span class="stat-label">product_02</span>
+                    <div class="stat-value">keyzz classic</div>
+                    <span class="price-tag">$7</span>
+                    <div class="card-detail">
+                        <p>the original style.</p>
+                        <div class="buy-group">
+                            <a href="https://cash.app/$keyzzbtw" class="buy-btn cash">cash app</a>
+                            <a href="https://paypal.me/keyzzwtw" class="buy-btn">paypal</a>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="card-btn" onclick="this.classList.toggle('active')">
+                    <img src="./assets/full.jpg" class="card-img">
+                    <span class="stat-label">product_03</span>
+                    <div class="stat-value">best of the best</div>
+                    <span class="price-tag">$11</span>
+                    <div class="card-detail">
+                        <p>best you can get from me.</p>
+                        <div class="buy-group">
+                            <a href="https://cash.app/$keyzzbtw" class="buy-btn cash">cash app</a>
+                            <a href="https://paypal.me/keyzzwtw" class="buy-btn">paypal</a>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-tag" style="border-color: #fff;">active_logs.</h2>
+            <div class="grid">
+                <button class="card-btn" onclick="this.classList.toggle('active')">
+                    <img src="./assets/monster.png" class="card-img">
+                    <div class="stat-value">Team Monster</div>
+                    <div class="card-detail"><a href="https://teammonster.org" target="_blank" class="buy-btn">visit site</a></div>
+                </button>
+                <button class="card-btn" onclick="this.classList.toggle('active')">
+                    <img src="./assets/manualkey.jpg" class="card-img">
+                    <div class="stat-value">ManualKey</div>
+                    <div class="card-detail"><a href="https://manualkey.org" target="_blank" class="buy-btn">visit site</a></div>
+                </button>
+                <button class="card-btn" onclick="this.classList.toggle('active')">
+                    <img src="./assets/sea.jpg" class="card-img">
+                    <div class="stat-value">Sea Software</div>
+                    <div class="card-detail"><a href="https://seasoftware.dev" target="_blank" class="buy-btn">visit site</a></div>
+                </button>
+            </div>
+        </section>
+
+        <section style="background: white; color: black;">
+            <h2 class="section-tag" style="border-color: var(--izzy);">izabella.</h2>
+            <div class="marquee">
+                <div class="track-scroll">
+                    <img src="./assets/1.jpg"><img src="./assets/2.jpg"><img src="./assets/3.jpg"><img src="./assets/4.jpg"><img src="./assets/5.jpg">
+                    <img src="./assets/6.jpg"><img src="./assets/7.jpg"><img src="./assets/8.jpeg"><img src="./assets/9.jpeg">
+                </div>
+            </div>
+        </section>
+
+<section id="network">
+            <h2 class="section-tag">network.</h2>
+            <div class="grid">
+                <a href="https://youtube.com/@WoahKurs" target="_blank" class="card-btn">
+                    <img src="./assets/kurs.jpg" class="card-img">
+                    <div class="stat-value">@WoahKurs</div>
+                </a>
+                <a href="https://twitch.tv/KrimpletTV" target="_blank" class="card-btn">
+                    <img src="./assets/krimpi.png" class="card-img">
+                    <div class="stat-value">@KrimpletTV</div>
+                </a>
+                <a href="https://wyind.dev" target="_blank" class="card-btn">
+                    <img src="./assets/wyind.jpeg" class="card-img">
+                    <div class="stat-value">@WyindSZN</div>
+                </a>
+                <a href="https://guns.lol/voidzszn" target="_blank" class="card-btn">
+                    <img src="./assets/voidz.png" class="card-img">
+                    <div class="stat-value">@voidzszn</div>
+                </a>
+                <a href="https://ryanpc.org" target="_blank" class="card-btn">
+                    <img src="./assets/ryan.png" class="card-img">
+                    <div class="stat-value">@ryanpc_org</div>
+                </a>
+                <a href="https://www.youtube.com/channel/UCztunHGUe1atVTtmhGQgV7Q" target="_blank" class="card-btn">
+                    <img src="./assets/rylo.png" class="card-img">
+                    <div class="stat-value">@Rylovfx</div>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <div class="social-links">
+                <a href="https://twitter.com/keyzzilla" target="_blank" class="social-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://youtube.com/@keyzzilla" target="_blank" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://twitch.tv/keyzzilla" target="_blank" class="social-btn"><i class="fa-brands fa-twitch"></i></a>
+            </div>
+            <p class="footer-placeholder">
+                [SYSTEM_LOG: V5.1.2] // keyzzilla 2026. all rights reserved.
+            </p>
+        </footer>
+
+        <div class="music-player-fixed">
+            <div class="track-info">
+                <img src="" id="curr-cover" class="track-cover">
+                <div class="track-meta">
+                    <div id="curr-title" class="track-title">loading...</div>
+                    <div style="font-size: 0.6rem; opacity: 0.5;">keydio</div>
+                </div>
+            </div>
+            <input type="range" id="timeline" style="width: 100%;" value="0">
+            <div class="player-controls">
+                <button class="p-btn" onclick="prevSong()"><i class="fas fa-backward"></i></button>
+                <button class="p-btn" onclick="togglePlay()" id="play-pause"><i class="fas fa-pause"></i></button>
+                <button class="p-btn" onclick="nextSong()"><i class="fas fa-forward"></i></button>
+                <input type="range" id="volume" style="width: 70px;" min="0" max="1" step="0.01" value="0.25">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const songs = [
+            { name: "i need u", mp3: "songs/i need u/i need u.mp3", img: "songs/i need u/i need u.jpg" },
+            { name: "wys", mp3: "songs/wys/wys.mp3", img: "songs/wys/wys.jpg" },
+            { name: "jnb", mp3: "songs/jnb/jnb.mp3", img: "songs/jnb/jnb.gif" },
+            { name: "spinagain", mp3: "songs/spinagain/spinagain.mp3", img: "songs/spinagain/spinagain.gif" },
+            { name: "veteran", mp3: "songs/veteran/veteran.mp3", img: "songs/veteran/veteran.jpeg" },
+            { name: "margiela", mp3: "songs/margiela/margiela.mp3", img: "songs/margiela/margiela.png" },
+            { name: "fs3", mp3: "songs/fs3/fs3.mp3", img: "songs/fs3/fs3.gif" },
+            { name: "mdma", mp3: "songs/mdma/mdma.mp3", img: "songs/mdma/mdma.gif" }
+        ];
+
+        let currentIdx = 0;
+        const audio = new Audio();
+        audio.volume = 0.15;
+
+        function loadSong(idx) {
+            const song = songs[idx];
+            audio.src = song.mp3;
+            document.getElementById('curr-title').innerText = song.name;
+            document.getElementById('curr-cover').src = song.img;
+        }
+
+        function initSystem() {
+            document.getElementById('init-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('init-overlay').style.display = 'none';
+                document.getElementById('main-site').style.opacity = '1';
+                loadSong(0);
+                audio.play();
+                updateIcon();
+            }, 1000);
+        }
+
+        function togglePlay() { audio.paused ? audio.play() : audio.pause(); updateIcon(); }
+        function updateIcon() { document.getElementById('play-pause').innerHTML = audio.paused ? '<i class="fas fa-play"></i>' : '<i class="fas fa-pause"></i>'; }
+        function nextSong() { currentIdx = (currentIdx + 1) % songs.length; loadSong(currentIdx); audio.play(); updateIcon(); }
+        function prevSong() { currentIdx = (currentIdx - 1 + songs.length) % songs.length; loadSong(currentIdx); audio.play(); updateIcon(); }
+
+        audio.ontimeupdate = () => { document.getElementById('timeline').value = (audio.currentTime / audio.duration) * 100 || 0; };
+        document.getElementById('timeline').oninput = (e) => { audio.currentTime = (e.target.value / 100) * audio.duration; };
+        document.getElementById('volume').oninput = (e) => { audio.volume = e.target.value; };
+        audio.onended = nextSong;
+        loadSong(0);
+    </script>
+</body>
+</html>

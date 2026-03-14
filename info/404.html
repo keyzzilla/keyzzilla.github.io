@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('https://fonts.cdnfonts.com/s/14899/Coolveticarg.woff') format('woff');
+        }
+
+        :root {
+            --bg: #050505;
+            --accent: #ff2d55; 
+            --text: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; text-transform: lowercase; cursor: crosshair; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Coolvetica', sans-serif; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* SCANLINE EFFECT */
+        body::before {
+            content: " ";
+            position: fixed; inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .container { position: relative; z-index: 10; padding: 20px; }
+
+        .glitch-code {
+            font-size: 15vw;
+            font-weight: 900;
+            letter-spacing: -1vw;
+            color: var(--accent);
+            position: relative;
+            animation: glitch 1s linear infinite;
+        }
+
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px,0) skew(0deg); }
+            4%, 60% { transform: translate(-2px,0) skew(0deg); }
+            62% { transform: translate(0,0) skew(5deg); }
+        }
+
+        .status-msg {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            margin-top: -20px;
+            opacity: 0.5;
+        }
+
+        .redirect-timer {
+            margin-top: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: #00f2ff;
+            text-transform: uppercase;
+        }
+
+        .back-home {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid var(--text);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            background: var(--text);
+            color: #000;
+        }
+
+        .lost-asset {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            font-size: 0.6rem;
+            opacity: 0.2;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="glitch-code">404</div>
+        <p class="status-msg">sector_not_found.exe</p>
+        
+        <div class="redirect-timer">
+            relinking_to_system in <span id="countdown">5</span>...
+        </div>
+
+        <a href="index.html" class="back-home">force_return</a>
+    </div>
+
+    <div class="lost-asset">
+        welp.<br>
+        trace_route: failed<br>
+        cant find the page<br>
+        brotato.
+    </div>
+
+    <script>
+        // countdown logic
+        let seconds = 5;
+        const countdownEl = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            seconds--;
+            countdownEl.innerText = seconds;
+            if (seconds <= 0) {
+                clearInterval(timer);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+
+        // subtle glitch flicker
+        setInterval(() => {
+            const glitch = document.querySelector('.glitch-code');
+            glitch.style.opacity = Math.random() > 0.98 ? '0.3' : '1';
+        }, 50);
+    </script>
+</body>
+</html>
