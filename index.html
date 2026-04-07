@@ -4,99 +4,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>keyzzilla — archive</title>
-    <meta name="description" content="personal archive of keyzzilla — vfx editor, gfx designer, and web developer.">
+    <title>KEYZZ.EXE - SELECT YOUR CHARACTER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-    <canvas id="particle-canvas"></canvas>
+    <audio id="audio-wys" loop>
+        <source src="songs/wys/wys.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audio-fs3" loop>
+        <source src="assets/songs/Teen Bean.mp3" type="audio/mpeg">
+    </audio>
 
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo" style="display: flex; align-items: center;"><img src="assets/keyzz.gif"
-                alt="keyzzilla logo" style="height: 30px; object-fit: contain;"></a>
-        <ul class="nav-links">
-            <li><a href="index.html">home</a></li>
-            <li><a href="about.html">about</a></li>
-            <li><a href="setup.html">setup</a></li>
-            <li><a href="timeline.html">timeline</a></li>
-            <li><a href="friends.html">friends</a></li>
-            <li><a href="socials.html">socials</a></li>
-            <li><a href="contact.html">contact</a></li>
-        </ul>
-        <button class="hamburger" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
+    <div class="crt-overlay"></div>
+    <div class="pixel-glitch" id="pixel-glitch"></div>
+    <div id="fade-overlay"></div>
 
-    <div class="page">
-        <section class="hero-section">
-            <div class="avatar-wrap">
-                <div class="avatar-ring"></div>
-                <img src="assets/ilyas.jpg" alt="Ilyas">
+    <div id="bios-screen" class="screen">
+        <div class="bios-content" id="bios-content"></div>
+    </div>
+
+    <div id="start-screen" class="screen active">
+        <p class="blink">[ CLICK TO START ]</p>
+    </div>
+
+    <div id="video-screen" class="screen bg-black">
+        <video id="startup-video" src="startup keyzz.mp4" playsinline></video>
+        <div class="skip-btn" id="skip-btn">Hold to Skip >></div>
+    </div>
+
+    <div id="char-video-screen" class="screen bg-black">
+        <video id="char-startup-video" src="" playsinline></video>
+        <div class="skip-btn" id="char-skip-btn">Hold to Skip >></div>
+    </div>
+
+    <div id="character-select" class="screen">
+        <h2 class="title">CHOOSE YOUR FIGHTER</h2>
+
+        <div class="character-container">
+            <div class="character-card" data-character="ilyas">
+                <div class="character-portrait">
+                    <img src="assets/lil ilyas.jpg" alt="Ilyas">
+                </div>
+                <div class="character-name">ILYAS</div>
+                <div class="character-stats">
+                    <p>TYPE: SMART</p>
+                    <p>ORIGINAL EDITION</p>
+                </div>
             </div>
 
-            <p class="hero-tag">vfx editor | pro fortnite player | web developer</p>
-            <h1 class="hero-name">keyzz.</h1>
-            <p class="hero-title">crafting high performance digital experiences with a focus on immaculate performance
-                and
-                immaculate aesthetics.</p>
+            <div class="vs-badge">VS</div>
 
-            <div class="hero-cta">
-                <a href="about.html" class="btn btn-primary">the archive →</a>
-                <a href="contact.html" class="btn btn-outline">get in touch</a>
+            <div class="character-card" data-character="keyzz">
+                <div class="character-portrait">
+                    <img src="assets/ken pfp.jpg" alt="Keyzz">
+                </div>
+                <div class="character-name">KEYZZ</div>
+                <div class="character-stats">
+                    <p>TYPE: STRONG</p>
+                    <p>SCARY EDITION</p>
+                </div>
             </div>
+        </div>
 
-            <div class="hero-social">
-                <a href="https://github.com/keyzzilla" class="social-pill">
-                    <span>🐙</span> github
-                </a>
-                <a href="https://twitter.com/keyzzxvz" class="social-pill">
-                    <span>🐦</span> twitter
-                </a>
-                <a href="mailto:ilyas@keyzzilla.com" class="social-pill">
-                    <span>✉️</span> email
-                </a>
-                <a href="https://maunalkey.org" class="social-pill">
-                    <span>🌐</span> maunalkey
-                </a>
+        <div class="network-dropdown" id="network-trigger">
+            <div class="dropdown-header">
+                [ NETWORK / FRIENDS ]
             </div>
-        </section>
-
-        <section class="section">
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
-                <div class="glass reveal" style="padding: 2rem; text-align:center;">
-                    <div
-                        style="font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">
-                        7-0 🏆</div>
-                    <div style="color:var(--text-muted); font-size:0.9rem; margin-top:0.3rem;">flag football record
+            <div class="dropdown-content grid-system" id="network-content">
+                <a href="https://youtube.com/@WoahKurs" target="_blank" class="friend-card">
+                    <img src="assets/kurs.jpg" alt="@WoahKurs">
+                    <div class="friend-info">
+                        <h3>@woahkurs</h3>
+                        <p>token pro</p>
                     </div>
-                </div>
-                <div class="glass reveal" style="padding: 2rem; text-align:center; transition-delay:0.1s">
-                    <div
-                        style="font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">
-                        2023</div>
-                    <div style="color:var(--text-muted); font-size:0.9rem; margin-top:0.3rem;">year pc built</div>
-                </div>
-                <div class="glass reveal" style="padding: 2rem; text-align:center; transition-delay:0.2s">
-                    <div
-                        style="font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">
-                        2</div>
-                    <div style="color:var(--text-muted); font-size:0.9rem; margin-top:0.3rem;">active domains</div>
-                </div>
-                <div class="glass reveal" style="padding: 2rem; text-align:center; transition-delay:0.3s">
-                    <div
-                        style="font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">
-                        13</div>
-                    <div style="color:var(--text-muted); font-size:0.9rem; margin-top:0.3rem;">years of age</div>
-                </div>
+                </a>
+                <a href="https://twitch.tv/KrimpletTV" target="_blank" class="friend-card">
+                    <img src="assets/krimpi.png" alt="@KrimpletTV">
+                    <div class="friend-info">
+                        <h3>@krimplettv</h3>
+                        <p>streamer</p>
+                    </div>
+                </a>
+                <a href="https://wyind.dev" target="_blank" class="friend-card">
+                    <img src="assets/wyind.jpeg" alt="@WyindSZN">
+                    <div class="friend-info">
+                        <h3>@wyindszn</h3>
+                        <p>developer</p>
+                    </div>
+                </a>
+                <a href="https://guns.lol/voidzszn" target="_blank" class="friend-card">
+                    <img src="assets/voidz.png" alt="@voidzszn">
+                    <div class="friend-info">
+                        <h3>@voidzszn</h3>
+                        <p>token pro</p>
+                    </div>
+                </a>
+                <a href="https://ryanpc.org" target="_blank" class="friend-card">
+                    <img src="assets/ryan.png" alt="@ryanpc_org">
+                    <div class="friend-info">
+                        <h3>@ryanpc_org</h3>
+                        <p>developer</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/channel/UCztunHGUe1atVTtmhGQgV7Q" target="_blank" class="friend-card">
+                    <img src="assets/rylo.png" alt="@rylovfx">
+                    <div class="friend-info">
+                        <h3>@rylovfx</h3>
+                        <p>editor</p>
+                    </div>
+                </a>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <footer>
-            crafted with <span>love</span> by keyzzilla &nbsp;·&nbsp; <span>2026</span>
-        </footer>
+    <div id="content-screen" class="screen">
+
+        <button id="back-btn" class="retro-btn">
+            < BACK</button>
+
+                <div class="content-wrapper">
+
+                    <div id="content-ilyas" class="character-content">
+                        <header class="content-header">
+                            <img src="assets/lil ilyas.jpg" class="profile-pic pixelated">
+                            <h1>ILYAS.EXE</h1>
+                            <p>Web Developer & Editor</p>
+                            <div class="header-socials">
+                                <span>YT: keyzzilla</span>
+                                <span>X: kqyzz</span>
+                                <span>TTV: keyzzvv</span>
+                            </div>
+                        </header>
+
+                        <div class="retro-box">
+                            <h3>> PORTFOLIO.LOG</h3>
+                            <p>i'm ilyas, better known as keyzzilla. a 13 year old web developer and video editor based
+                                in austin, texas.</p>
+                            <div class="projects-list">
+                                <a href="https://keyzzilla.com/velozzy" target="_blank">> VELOZZY</a>
+                                <a href="https://manualkey.org" target="_blank">> MANUALKEY.ORG</a>
+                                <a href="https://teammonster.org" target="_blank">> TEAMMONSTER.ORG</a>
+                            </div>
+                        </div>
+
+                        <div class="retro-box">
+                            <h3>> SKILLS.EXE</h3>
+                            <ul class="skills-grid">
+                                <li>[ HTML/CSS ]</li>
+                                <li>[ PYTHON ]</li>
+                                <li>[ VFX ]</li>
+                                <li>[ GFX ]</li>
+                            </ul>
+                        </div>
+
+                        <div class="retro-box">
+                            <h3>> BATTLESTATION</h3>
+                            <ul>
+                                <li>CPU: intel i9-12900k</li>
+                                <li>GPU: nvidia rtx 4060</li>
+                                <li>RAM: 32gb ddr5</li>
+                                <li>Storage: 1tb ssd, 2x 64gb, 1tb hdd</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="content-keyzz" class="character-content">
+                        <header class="content-header">
+                            <img src="assets/ken pfp.jpg" class="profile-pic pixelated">
+                            <h1>KEYZZ.EXE</h1>
+                            <p>Best Token Player 2026</p>
+                            <div class="header-socials">
+                                <a href="https://youtube.com/@keyzzilla" target="_blank"><i
+                                        class="fab fa-youtube"></i></a>
+                                <a href="https://x.com/kqyzz" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://twitch.tv/keyzzvv" target="_blank"><i class="fab fa-twitch"></i></a>
+                            </div>
+                        </header>
+
+                        <div class="retro-box">
+                            <h3>> GAMING.LOG</h3>
+                            <p>t1 token player. @TeamMonsterGG founder. part of <a href="https://8fzt.party"
+                                    target="_blank">8fzt.party</a>.</p>
+                        </div>
+
+                        <div class="retro-box">
+                            <h3>> CAREER_PATH</h3>
+                            <ul>
+                                <li>@luminaggs (Token Pro)</li>
+                                <li>@worshiphq (Token Lead)</li>
+                                <li>@sarrow2026 (Token Pro)</li>
+                                <li>@beneathhq (Token Pro)</li>
+                                <li>@2am_esports (Token Pro)</li>
+                            </ul>
+                        </div>
+
+                        <div class="retro-box">
+                            <h3>> ACHIEVEMENTS</h3>
+                            <p>> TOP 5 TOKEN PLAYERS NA-EAST</p>
+                            <p>> SMART & CREATIVE in Zone Wars</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="volume-control">
+                    <label>VOL:</label>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.15">
+                </div>
     </div>
 
     <script src="script.js"></script>

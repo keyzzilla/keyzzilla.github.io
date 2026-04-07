@@ -1,157 +1,272 @@
-/* ===========================
-   DO NOT STEAL MY CODE @keyzzilla USAGE EXCLUSIVE
-   =========================== */
+﻿document.addEventListener('DOMContentLoaded', () => {
 
-(function () {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav-links a').forEach(a => {
-        const href = a.getAttribute('href').split('/').pop();
-        if (href === path) a.classList.add('active');
+    const startScreen = document.getElementById('start-screen');
+    const videoScreen = document.getElementById('video-screen');
+    const characterSelect = document.getElementById('character-select');
+    const contentScreen = document.getElementById('content-screen');
+
+    const startupVideo = document.getElementById('startup-video');
+    const skipBtn = document.getElementById('skip-btn');
+
+    const charVideoScreen = document.getElementById('char-video-screen');
+    const charStartupVideo = document.getElementById('char-startup-video');
+    const charSkipBtn = document.getElementById('char-skip-btn');
+    const fadeOverlay = document.getElementById('fade-overlay');
+
+    const charCards = document.querySelectorAll('.character-card');
+    const backBtn = document.getElementById('back-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    const contentIlyas = document.getElementById('content-ilyas');
+    const contentKeyzz = document.getElementById('content-keyzz');
+
+    const audioWys = document.getElementById('audio-wys');
+    const audioFs3 = document.getElementById('audio-fs3');
+
+    let currentAudio = null;
+
+    audioWys.volume = 0.15;
+    audioFs3.volume = 0.15;
+    volumeSlider.value = 0.15;
+
+    volumeSlider.addEventListener('input', (e) => {
+        const vol = parseFloat(e.target.value);
+        audioWys.volume = vol;
+        audioFs3.volume = vol;
     });
-})();
 
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
-if (hamburger) {
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
+    function playAudio(audioElem) {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+        audioElem.play().catch(e => console.log(e));
+        currentAudio = audioElem;
+    }
+
+    function stopAudio() {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+    }
+
+
+    let audioCtx = null;
+    const initAudio = () => {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+    };
+
+    const Snd = {
+        getVol: () => parseFloat(volumeSlider.value),
+        beep: (freq = 440, duration = 0.1, type = 'square', volume = 0.05) => {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            const finalVol = volume * (Snd.getVol() / 0.15);
+            gain.gain.setValueAtTime(finalVol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        },
+        confirm: () => {
+            Snd.beep(600, 0.1, 'square', 0.05);
+            setTimeout(() => Snd.beep(800, 0.1, 'square', 0.05), 50);
+        },
+        cancel: () => {
+            Snd.beep(400, 0.1, 'square', 0.05);
+            setTimeout(() => Snd.beep(300, 0.1, 'square', 0.05), 50);
+        },
+        click: () => Snd.beep(1000, 0.05, 'sine', 0.03),
+        static: () => {
+            initAudio();
+            const bufferSize = audioCtx.sampleRate * 0.1;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            const source = audioCtx.createBufferSource();
+            source.buffer = buffer;
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.02 * (Snd.getVol() / 0.15), audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+            source.connect(gain);
+            gain.connect(audioCtx.destination);
+            source.start();
+        }
+    };
+
+    function switchScreen(hideScreen, showScreen, withTvEffect = true) {
+        if (withTvEffect) {
+            document.body.classList.add('tv-powering');
+            Snd.static();
+            setTimeout(() => {
+                hideScreen.classList.remove('active');
+                showScreen.classList.add('active');
+                document.body.classList.remove('tv-powering');
+                document.body.classList.add('tv-on');
+                setTimeout(() => document.body.classList.remove('tv-on'), 400);
+            }, 400);
+        } else {
+            hideScreen.classList.remove('active');
+            showScreen.classList.add('active');
+        }
+    }
+
+    async function transitionWithFade(hideScreen, showScreen, midAction = null, fadeOutAfter = true) {
+        fadeOverlay.classList.add('active');
+        await new Promise(r => setTimeout(r, 600));
+
+        hideScreen.classList.remove('active');
+        showScreen.classList.add('active');
+
+        if (midAction) midAction();
+
+        if (fadeOutAfter) {
+            await new Promise(r => setTimeout(r, 100));
+            fadeOverlay.classList.remove('active');
+        }
+    }
+
+    const biosScreen = document.getElementById('bios-screen');
+    const biosContent = document.getElementById('bios-content');
+    const biosLines = [
+        "KEYZZ-BIOS (C) 2026 KEYZZILLA CORP.",
+        "CPU: INTEL(R) CORE(TM) I9-12900K @ 5.20GHZ",
+        "MEMORY TEST: 32768MB OK",
+        "WAITING FOR DISK... FOUND",
+        "BOOTING FROM 'KEYZZILLA.EXE'...",
+        "INITIALIZING INTERFACE...",
+        "SYSTEM READY."
+    ];
+
+    async function playBiosSequence() {
+        biosScreen.classList.add('active');
+        biosContent.innerHTML = '';
+        for (const line of biosLines) {
+            const div = document.createElement('div');
+            div.className = 'bios-line visible';
+            div.textContent = "> " + line;
+            biosContent.appendChild(div);
+            Snd.click();
+            await new Promise(r => setTimeout(r, 100 + Math.random() * 200));
+        }
+        await new Promise(r => setTimeout(r, 500));
+
+        await transitionWithFade(biosScreen, characterSelect, () => {
+            document.body.style.backgroundImage = "url('assets/bliss.png')";
+        });
+    }
+
+    startScreen.addEventListener('click', () => {
+        Snd.confirm();
+        switchScreen(startScreen, videoScreen);
+        startupVideo.volume = 0.5;
+        startupVideo.play().catch(e => {
+            playBiosSequence();
+        });
     });
-}
 
-(function () {
-    const canvas = document.getElementById('particle-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, particles = [];
-    let mouse = { x: -9999, y: -9999, r: 100 };
+    startupVideo.addEventListener('ended', () => {
+        playBiosSequence();
+    });
 
-    function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-        mouse.r = Math.min(W, H) / 10;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    skipBtn.addEventListener('click', () => {
+        Snd.cancel();
+        startupVideo.pause();
+        playBiosSequence();
+    });
 
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    window.addEventListener('mouseout', () => { mouse.x = -9999; mouse.y = -9999; });
+    async function selectCharacter(charId) {
+        Snd.confirm();
 
-    class Particle {
-        constructor() { this.reset(true); }
-        reset(initial) {
-            this.x = Math.random() * W;
-            this.y = initial ? Math.random() * H : (Math.random() < 0.5 ? -5 : H + 5);
-            this.vx = (Math.random() - 0.5) * 0.6;
-            this.vy = (Math.random() - 0.5) * 0.6;
-            this.r = Math.random() * 1.5 + 0.5;
-            this.alpha = Math.random() * 0.5 + 0.2;
-            const hues = ['99,179,237', '183,148,244', '104,211,145'];
-            this.color = hues[Math.floor(Math.random() * hues.length)];
-        }
-        update() {
-            const dx = this.x - mouse.x, dy = this.y - mouse.y;
-            const d2 = dx * dx + dy * dy;
-            const mr = mouse.r;
-            if (d2 < mr * mr) {
-                const d = Math.sqrt(d2) || 1;
-                const force = (mr - d) / mr * 0.5;
-                this.vx += (dx / d) * force;
-                this.vy += (dy / d) * force;
+
+        await transitionWithFade(characterSelect, charVideoScreen, () => {
+            if (charId === 'ilyas') {
+                charStartupVideo.src = 'mtz startup.mp4';
+            } else if (charId === 'keyzz') {
+                charStartupVideo.src = 'keyzz x startup.mp4';
             }
-            this.vx *= 0.99;
-            this.vy *= 0.99;
-            this.x += this.vx;
-            this.y += this.vy;
-            if (this.x < -10) this.x = W + 10;
-            if (this.x > W + 10) this.x = -10;
-            if (this.y < -10) this.y = H + 10;
-            if (this.y > H + 10) this.y = -10;
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${this.color},${this.alpha})`;
-            ctx.fill();
-        }
+            charStartupVideo.load();
+        }, false);
+
+        charStartupVideo.volume = 0.5;
+        charStartupVideo.play().then(() => {
+            fadeOverlay.classList.remove('active');
+        }).catch(e => {
+            showCharacterContent(charId);
+        });
+
+        window.selectedChar = charId;
     }
 
-    function init() {
-        const count = Math.min(Math.floor((W * H) / 9000), 140);
-        particles = Array.from({ length: count }, () => new Particle());
-    }
-    init();
-    window.addEventListener('resize', init);
+    async function showCharacterContent(charId) {
+        await transitionWithFade(charVideoScreen, contentScreen, () => {
+            contentIlyas.classList.remove('active');
+            contentKeyzz.classList.remove('active');
 
-    const MAX_DIST = 130;
-    const MAX_DIST_SQ = MAX_DIST * MAX_DIST;
-
-    function connect() {
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const d2 = dx * dx + dy * dy;
-                if (d2 < MAX_DIST_SQ) {
-                    const alpha = (1 - d2 / MAX_DIST_SQ) * 0.25;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(99,179,237,${alpha})`;
-                    ctx.lineWidth = 0.8;
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-
-    function loop() {
-        ctx.clearRect(0, 0, W, H);
-        particles.forEach(p => { p.update(); p.draw(); });
-        connect();
-        requestAnimationFrame(loop);
-    }
-    loop();
-})();
-
-(function () {
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                io.unobserve(e.target);
+            if (charId === 'ilyas') {
+                document.body.style.backgroundImage = "url('assets/slides.gif')";
+                contentIlyas.classList.add('active');
+                playAudio(audioWys);
+            } else if (charId === 'keyzz') {
+                document.body.style.backgroundImage = "url('assets/kc wper.jpeg')";
+                contentKeyzz.classList.add('active');
+                playAudio(audioFs3);
             }
         });
-    }, { threshold: 0.1 });
+    }
 
-    document.querySelectorAll('.reveal, .timeline-item, .feature-card').forEach(el => io.observe(el));
-})();
-
-(function () {
-    const bars = document.querySelectorAll('.skill-fill');
-    if (!bars.length) return;
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.style.width = e.target.dataset.width;
-                io.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    bars.forEach(b => io.observe(b));
-})();
-
-(function () {
-    const form = document.getElementById('contact-form');
-    if (!form) return;
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        const btn = form.querySelector('.form-submit');
-        btn.classList.add('sent');
-        btn.innerHTML = '✅ Message Sent!';
-        setTimeout(() => {
-            btn.classList.remove('sent');
-            btn.innerHTML = 'Send Message <span>→</span>';
-            form.reset();
-        }, 3000);
+    charStartupVideo.addEventListener('ended', () => {
+        showCharacterContent(window.selectedChar);
     });
-})();
+
+    charSkipBtn.addEventListener('click', () => {
+        Snd.cancel();
+        charStartupVideo.pause();
+        showCharacterContent(window.selectedChar);
+    });
+
+    charCards.forEach(card => {
+        card.addEventListener('mouseenter', () => Snd.beep(440, 0.05));
+        card.addEventListener('click', () => {
+            const charId = card.getAttribute('data-character');
+            selectCharacter(charId);
+        });
+    });
+
+    backBtn.addEventListener('click', () => {
+        Snd.cancel();
+        stopAudio();
+        transitionWithFade(contentScreen, characterSelect, () => {
+            document.body.style.backgroundImage = "url('assets/bliss.png')";
+        });
+    });
+
+    const networkTrigger = document.getElementById('network-trigger');
+    if (networkTrigger) {
+        networkTrigger.addEventListener('click', () => {
+            const opening = !networkTrigger.classList.contains('active');
+            if (opening) Snd.confirm(); else Snd.cancel();
+            networkTrigger.classList.toggle('active');
+        });
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && (startScreen.classList.contains('active') || videoScreen.classList.contains('active'))) {
+            if (startScreen.classList.contains('active')) startScreen.click();
+            if (videoScreen.classList.contains('active')) skipBtn.click();
+        }
+        if (e.code === 'Backspace' && contentScreen.classList.contains('active')) {
+            backBtn.click();
+        }
+        if (e.code === 'Enter' && (videoScreen.classList.contains('active') || charVideoScreen.classList.contains('active'))) {
+            if (videoScreen.classList.contains('active')) skipBtn.click();
+            if (charVideoScreen.classList.contains('active')) charSkipBtn.click();
+        }
+    });
+
+});
