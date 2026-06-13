@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 // system_failure</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('https://fonts.cdnfonts.com/s/14899/Coolveticarg.woff') format('woff');
+        }
+
+        :root {
+            --bg: #050505;
+            --text: #ffffff;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.02);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-transform: lowercase;
+            cursor: crosshair;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Coolvetica', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+
+        /* SCANLINE EFFECT */
+        body::before {
+            content: " ";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.35) 50%), 
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.01), rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.01));
+            background-size: 100% 3px, 6px 100%;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* VIGNETTE EFFECT */
+        body::after {
+            content: " ";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
+            z-index: 99;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glitch-code {
+            font-size: 14vw;
+            font-weight: 900;
+            letter-spacing: -0.6vw;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        /* CSS Glitch Animation */
+        @keyframes glitch-anim {
+            0% {
+                clip-path: inset(30% 0 60% 0);
+                transform: skew(0.2deg);
+            }
+            20% {
+                clip-path: inset(85% 0 2% 0);
+                transform: skew(-0.3deg);
+            }
+            40% {
+                clip-path: inset(10% 0 80% 0);
+                transform: skew(0.4deg);
+            }
+            60% {
+                clip-path: inset(75% 0 8% 0);
+                transform: skew(-0.2deg);
+            }
+            80% {
+                clip-path: inset(5% 0 90% 0);
+                transform: skew(0.6deg);
+            }
+            100% {
+                clip-path: inset(30% 0 60% 0);
+                transform: skew(0deg);
+            }
+        }
+
+        .glitch-code::before,
+        .glitch-code::after {
+            content: "404";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+        }
+
+        .glitch-code::before {
+            left: 2px;
+            text-shadow: -1px 0 rgba(255, 255, 255, 0.5);
+            clip-path: inset(0 0 0 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+
+        .glitch-code::after {
+            left: -2px;
+            text-shadow: -2px 0 rgba(255, 255, 255, 0.3);
+            clip-path: inset(0 0 0 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+
+        .status-msg {
+            font-size: 1.1rem;
+            letter-spacing: 6px;
+            margin-bottom: 25px;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        .terminal-box {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 25px;
+            width: 100%;
+            max-width: 480px;
+            text-align: left;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .terminal-dot:first-child {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .terminal-text {
+            font-family: monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            min-height: 110px;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 6px;
+            height: 13px;
+            background: rgba(255, 255, 255, 0.8);
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 3px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .redirect-timer {
+            font-size: 0.75rem;
+            letter-spacing: 2.5px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .redirect-timer span {
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .reboot-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 35px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            transition: var(--transition);
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .reboot-btn:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .reboot-btn i {
+            font-size: 0.8rem;
+        }
+
+        .abort-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: underline;
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 5px 10px;
+        }
+
+        .abort-btn:hover {
+            color: var(--text);
+        }
+
+        .lost-asset {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            font-size: 0.7rem;
+            opacity: 0.25;
+            text-align: left;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            font-family: monospace;
+            z-index: 5;
+        }
+
+        @media (max-width: 600px) {
+            .glitch-code {
+                font-size: 20vw;
+            }
+            .lost-asset {
+                display: none;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="container">
+        <h1 class="glitch-code" id="error-title">404</h1>
+        <p class="status-msg" id="status-message">sector_not_found.exe</p>
+        
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span>terminal // failure_log</span>
+                <div class="terminal-dots">
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                    <span class="terminal-dot"></span>
+                </div>
+            </div>
+            <div class="terminal-text" id="terminal-content"></div>
+        </div>
+
+        <div class="redirect-timer" id="timer-container">
+            relinking_to_system in <span id="countdown">5</span>s...
+        </div>
+
+        <div class="btn-group">
+            <a href="index.html" class="reboot-btn" id="reboot-trigger">
+                <i class="fa-solid fa-power-off"></i> reboot_system
+            </a>
+            <button class="abort-btn" id="abort-trigger" onclick="abortRedirect()">[abort_override]</button>
+        </div>
+    </main>
+
+    <aside class="lost-asset">
+        welp.<br>
+        trace_route: failed<br>
+        cant find the page<br>
+        brotato.
+    </aside>
+
+    <script>
+        const terminalContent = document.getElementById('terminal-content');
+        const countdownEl = document.getElementById('countdown');
+        const timerContainer = document.getElementById('timer-container');
+        const abortBtn = document.getElementById('abort-trigger');
+
+        const logs = [
+            "> accessing network...",
+            "> error: restricted directory keyzzilla/void",
+            "> status: connection_lost",
+            "> emergency redirection initialized..."
+        ];
+
+        let logIndex = 0;
+        let charIndex = 0;
+        let currentText = "";
+        let countdownInterval;
+        let seconds = 5;
+
+        function typeLog() {
+            if (logIndex < logs.length) {
+                const currentLine = logs[logIndex];
+                if (charIndex < currentLine.length) {
+                    currentText += currentLine[charIndex];
+                    terminalContent.innerHTML = currentText.replace(/\n/g, '<br>') + '<span class="terminal-cursor"></span>';
+                    charIndex++;
+                    setTimeout(typeLog, 25);
+                } else {
+                    currentText += "\n";
+                    terminalContent.innerHTML = currentText.replace(/\n/g, '<br>') + '<span class="terminal-cursor"></span>';
+                    logIndex++;
+                    charIndex = 0;
+                    setTimeout(typeLog, 300);
+                }
+            } else {
+                startCountdown();
+            }
+        }
+
+        function startCountdown() {
+            timerContainer.style.opacity = '1';
+            countdownInterval = setInterval(() => {
+                seconds--;
+                countdownEl.innerText = seconds;
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        }
+
+        function abortRedirect() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            timerContainer.innerHTML = "relink_aborted // manual_control_enabled";
+            abortBtn.style.display = 'none';
+            
+            // Append aborted state to terminal
+            currentText += "> warning: redirection sequence aborted by user.\n> status: listening for input...\n";
+            terminalContent.innerHTML = currentText.replace(/\n/g, '<br>') + '<span class="terminal-cursor"></span>';
+        }
+
+        // Initialize typewriter on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            timerContainer.style.opacity = '0.3'; // Dimmed initially
+            typeLog();
+        });
+
+        // subtle glitch flicker on the error code
+        setInterval(() => {
+            const glitch = document.getElementById('error-title');
+            glitch.style.opacity = Math.random() > 0.98 ? '0.4' : '1';
+        }, 80);
+    </script>
+</body>
+</html>
