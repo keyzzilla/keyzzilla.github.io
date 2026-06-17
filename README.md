@@ -2,7 +2,7 @@
 - 13 years old
 - Own Keyzzilla.com and ManualKey.org
 - Ex-Pro in Fortnite
-- Founded @TeamMonsterGG
+- Pro Token @BeneathHQ
 ## Past Orgs
 - @2AM_Esports // 2.0
 - @SarrowGG // Pro Token
